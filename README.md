@@ -37,18 +37,52 @@ FetchContent_MakeAvailable(crng)
 Here's a simple example of how to generate random numbers using OpenRAND:
 
 ```
-#include "OpenRAND/random.hpp"
-#include <iostream>
+#include <phillox.h>
 
 int main() {
-    OpenRAND::RandomEngine rng;
+    using RNG = Phillox; // Tyche
+    
+    // Initialize RNG with seed and counter
+    RNG rng(1, 0);
 
-    // Generate a random integer between 1 and 100
-    int random_number = rng.randint(1, 100);
+    // Draw random numbers of many types
+    int a = rng.rand<int>();
+    auto b = rng.rand<long long int>();
+    double c = rng.rand<double>();
+    float f = rng.rand<float>();
+    ...
+}
+```
 
-    std::cout << "Random Number: " << random_number << std::endl;
+The seed should correspond a work-unit or processing element of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the pixel flat index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.
 
-    return 0;
+```
+__global__ void apply_forces(Particle *particles, int counter, double sqrt_dt){
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    ...
+
+    // Apply random force
+    RNG local_rand_state(p.pid, counter);
+    
+    //double2 r = curand_uniform2_double(&local_rand_state); 
+    auto x = local_rand_state.rand<double>();
+    auto y = local_rand_state.rand<double>();
+    p.vx += (x  * 2.0 - 1.0) * sqrt_dt;
+    p.vy += (y  * 2.0 - 1.0) * sqrt_dt;
+    particles[i] = p;
+
+}
+
+
+int main(){
+    ...
+
+    // Simulation loop
+    int iter = 0;
+    while (iter++ < STEPS) {
+        apply_forces<<<nblocks, nthreads>>>(particles, iter, sqrt_dt);
+        ...
+    }
 }
 ```
 
