@@ -1,0 +1,65 @@
+name: Stat Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  manual_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    # - name: Set up Python 3.x
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     # Semantic version range syntax or exact version of a Python version
+    #     python-version: '3.x'
+    #     # Optional - x64 or x86 architecture, defaults to x64
+    #     architecture: 'x64'
+
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: CMake Configure
+      run: cmake -B build 
+
+    - name: Build project
+      working-directory: ${{github.workspace}}/build
+      run: |
+        ls -la
+        make -j4
+
+    - name: Run tests
+      working-directory: ${{github.workspace}}/build
+      run: ctest -j2
+ 
+    - name: Download Practrand
+      working-directory: ${{github.workspace}}/build
+      run: |
+        pwd
+        echo "Hello World"
+        mkdir Practrand && cd Practrand
+        curl -OL https://downloads.sourceforge.net/project/pracrand/PractRand-pre0.95.zip
+        unzip -q PractRand-pre0.95.zip
+        echo "Downloaded Practrand"
+        ls -la
+        pwd
+
+    - name: Compile it
+      working-directory: ${{github.workspace}}/build/Practrand
+      run: |
+        pwd
+        g++ -std=c++17 -c src/*.cpp src/RNGs/*.cpp src/RNGs/other/*.cpp -O3 -Iinclude -pthread
+        ar rcs libPractRand.a *.o
+        rm *.o
+        g++ -std=c++17 -o RNG_test tools/RNG_test.cpp libPractRand.a -O3 -Iinclude -pthread
+        pwd
+        
+    - name: Run it
+      working-directory: ${{github.workspace}}
+      run: |
+        ls -la
+        pwd
+        python3 tests/run_stat_tests.py

@@ -1,0 +1,32 @@
+name: Build
+
+on:
+   push:
+     branches:
+       - main
+   pull_request:
+     branches:
+       - main
+
+jobs:
+   build:
+     runs-on: ubuntu-latest
+
+     steps:
+     - name: Checkout code
+       uses: actions/checkout@v4
+
+     - name: Create build directory
+       run: mkdir build
+
+     - name: CMake Configure
+       run: cmake -B build 
+
+     - name: Build project
+       working-directory: ${{github.workspace}}/build
+       run: make -j4
+
+     - name: Run tests
+       working-directory: ${{github.workspace}}/build
+       run: ctest -j2
+    
