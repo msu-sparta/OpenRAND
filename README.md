@@ -20,12 +20,10 @@ OpenRAND is header only, so there is no need to install it. Simply copy the head
 You can also install OpenRAND using CMake. To integrate OpenRAND into your CMake project, add the following lines to your CMakeLists.txt file:
 
 ```
-EDIT THIS STUFF FOR NEW URL
-
 include(FetchContent)
 FetchContent_Declare(
   crng
-  GIT_REPOSITORY https://github.com/Shihab-Shahriar/rnd.git
+  GIT_REPOSITORY https://github.com/msu-sparta/OpenRAND.git
   GIT_TAG        main
 )
 
@@ -54,23 +52,19 @@ int main() {
 }
 ```
 
-The seed should correspond a work-unit or processing element of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the pixel flat index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.
+The seed should correspond a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the pixel flat index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.
 
 ```
 __global__ void apply_forces(Particle *particles, int counter, double sqrt_dt){
     int i = blockIdx.x * blockDim.x + threadIdx.x;
+    Particle p = particles[i];
     ...
 
     // Apply random force
     RNG local_rand_state(p.pid, counter);
     
-    //double2 r = curand_uniform2_double(&local_rand_state); 
-    auto x = local_rand_state.rand<double>();
-    auto y = local_rand_state.rand<double>();
-    p.vx += (x  * 2.0 - 1.0) * sqrt_dt;
-    p.vy += (y  * 2.0 - 1.0) * sqrt_dt;
-    particles[i] = p;
-
+    p.vx += (local_rand_state.rand<double>()  * 2.0 - 1.0) * sqrt_dt;
+    ...
 }
 
 
