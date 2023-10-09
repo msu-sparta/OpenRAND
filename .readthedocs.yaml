@@ -10,9 +10,9 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
-  jobs:
-    pre_build:
-      - cd docs && doxygen
+  # jobs:
+  #   pre_build:
+  #     - cd docs && doxygen
 
 # Build documentation in the "docs/" directory with Sphinx
 sphinx:

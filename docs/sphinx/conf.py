@@ -15,7 +15,10 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import subprocess
-subprocess.call('cd .. ; doxygen', shell=True)
+return_code = subprocess.call('cd .. ; doxygen', shell=True)
+
+if return_code != 0:
+    raise RuntimeError('Doxygen failed with return code {0}'.format(return_code))
 
 # -- Project information -----------------------------------------------------
 
