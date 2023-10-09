@@ -14,11 +14,24 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import subprocess
-return_code = subprocess.call('cd .. ; doxygen', shell=True)
+import subprocess, os
 
-if return_code != 0:
-    raise RuntimeError('Doxygen failed with return code {0}'.format(return_code))
+# Check if we're running on Read the Docs' servers
+read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+
+if read_the_docs_build:
+    print('Running on Read the Docs..')
+    return_code = subprocess.call('cd .. ; doxygen', shell=True)
+    if return_code != 0:
+        raise RuntimeError('Doxygen failed with return code {0}'.format(return_code))
+    # make sure output directory exists
+    files = os.listdir('../build/html')
+    print('Files in ../build/html:')
+    print('\n'.join(files))
+else:
+    print('Not running on Read the Docs..')
+
+subprocess.call('touch *.rst', shell=True)
 
 # -- Project information -----------------------------------------------------
 
