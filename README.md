@@ -52,7 +52,9 @@ int main() {
 }
 ```
 
-The seed should correspond a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the pixel flat index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.
+The seed should correspond a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the (1D) pixel index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.
+
+Below is a monte carlo paticle simulation example that runs for 10000 time steps. We can simply use the iteration number as `counter`. For `seed`, we assume each thread below has a unique global id atribute called `pid`. 
 
 ```
 __global__ void apply_forces(Particle *particles, int counter, double sqrt_dt){
@@ -73,7 +75,7 @@ int main(){
 
     // Simulation loop
     int iter = 0;
-    while (iter++ < STEPS) {
+    while (iter++ < 10000) {
         apply_forces<<<nblocks, nthreads>>>(particles, iter, sqrt_dt);
         ...
     }
@@ -81,7 +83,9 @@ int main(){
 ```
 
 ## Documentation
-For more detailed information on how to use OpenRAND and its features, please refer to the documentation.
+For a quick intorduction to OpenRAND: please refer to [this guide](https://msu-sparta.github.io/OpenRAND/md_quickstart.html).
+
+For more detailed information, refer to the doxygen doc [here](https://msu-sparta.github.io/OpenRAND/), 
 
 ## Contributing
 We welcome all sorts of contributions from the community- code, bug reports, documentation improvements, and any general feedback is always appreciated. 
@@ -93,8 +97,3 @@ If you'd like to make a major change or introduce a new feature, please open an 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Acknowledgments
-We'd like to thank all the contributors who have helped make OpenRAND a powerful and reliable tool for reproducible scientific research.
-
-Contact
-For inquiries or support, please contact us at contact@example.com.
