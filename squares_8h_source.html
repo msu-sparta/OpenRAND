@@ -139,46 +139,49 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} <span class="comment">// namespace</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classSquares.html">   70</a></span>&#160;<span class="keyword">class </span><a class="code" href="classSquares.html">Squares</a>: <span class="keyword">public</span> <a class="code" href="classBaseRNG.html">BaseRNG</a>&lt;Squares&gt;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    DEVICE <a class="code" href="classSquares.html">Squares</a>(uint64_t seed, uint32_t _ctr, uint32_t global_seed=rnd::DEFAULT_GLOBAL_SEED)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    :  seed(hash_seed(seed) ^ global_seed), ctr(<span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(_ctr) &lt;&lt; 32)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt; DEVICE T draw() {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">auto</span> round = [](uint64_t x, uint64_t w) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            x = x * x + w;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">return</span> (x &gt;&gt; 32) | (x &lt;&lt; 32);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        };</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        ctr++;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        uint64_t x = ctr * seed;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        uint64_t y = x;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        uint64_t z = y + seed;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, uint32_t&gt;){  </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            x = round(x, y);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            x = round(x, z);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            x = round(x, y);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">return</span> (x*x + z) &gt;&gt; 32;                 </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            x = round(x, y);       </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            x = round(x, z);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            x = round(x, y);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            x = round(x, z);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">return</span> x ^ ((x*x + y) &gt;&gt; 32);     </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">const</span> uint64_t seed;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    uint64_t ctr = 0;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;};</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SQUARES_H</span></div>
-<div class="ttc" id="aclassBaseRNG_html"><div class="ttname"><a href="classBaseRNG.html">BaseRNG</a></div><div class="ttdoc">Base class for random number generators.</div><div class="ttdef"><b>Definition:</b> base_state.hpp:20</div></div>
-<div class="ttc" id="aclassSquares_html"><div class="ttname"><a href="classSquares.html">Squares</a></div><div class="ttdef"><b>Definition:</b> squares.h:70</div></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">namespace </span>openrand{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classopenrand_1_1Squares.html">   71</a></span>&#160;<span class="keyword">class </span><a class="code" href="classopenrand_1_1Squares.html">Squares</a>: <span class="keyword">public</span> <a class="code" href="classopenrand_1_1BaseRNG.html">BaseRNG</a>&lt;Squares&gt;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    DEVICE <a class="code" href="classopenrand_1_1Squares.html">Squares</a>(uint64_t seed, uint32_t _ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    :  seed(hash_seed(seed) ^ global_seed), ctr(<span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(_ctr) &lt;&lt; 32)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    {}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt; DEVICE T draw() {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">auto</span> round = [](uint64_t x, uint64_t w) {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            x = x * x + w;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">return</span> (x &gt;&gt; 32) | (x &lt;&lt; 32);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        };</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        ctr++;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        uint64_t x = ctr * seed;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        uint64_t y = x;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        uint64_t z = y + seed;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, uint32_t&gt;){  </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            x = round(x, y);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            x = round(x, z);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            x = round(x, y);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> (x*x + z) &gt;&gt; 32;                 </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            x = round(x, y);       </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            x = round(x, z);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            x = round(x, y);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            x = round(x, z);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">return</span> x ^ ((x*x + y) &gt;&gt; 32);     </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">const</span> uint64_t seed;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    uint64_t ctr = 0;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;} <span class="comment">// namespace openrand</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// SQUARES_H</span></div>
+<div class="ttc" id="aclassopenrand_1_1BaseRNG_html"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a></div><div class="ttdoc">Base class for random number generators.</div><div class="ttdef"><b>Definition:</b> base_state.hpp:22</div></div>
+<div class="ttc" id="aclassopenrand_1_1Squares_html"><div class="ttname"><a href="classopenrand_1_1Squares.html">openrand::Squares</a></div><div class="ttdef"><b>Definition:</b> squares.h:71</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

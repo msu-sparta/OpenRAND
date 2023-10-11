@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['threefry_28',['Threefry',['../classThreefry.html',1,'']]],
-  ['tyche_29',['Tyche',['../classTyche.html',1,'']]]
+  ['threefry_28',['Threefry',['../classopenrand_1_1Threefry.html',1,'openrand']]],
+  ['tyche_29',['Tyche',['../classopenrand_1_1Tyche.html',1,'openrand']]]
 ];

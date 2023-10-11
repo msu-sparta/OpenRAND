@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['squares_27',['Squares',['../classSquares.html',1,'']]]
+  ['squares_27',['Squares',['../classopenrand_1_1Squares.html',1,'openrand']]]
 ];

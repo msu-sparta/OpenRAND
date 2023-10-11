@@ -109,81 +109,83 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <span class="comment">// namespace</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classPhillox.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPhillox.html">Phillox</a> : <span class="keyword">public</span> <a class="code" href="classBaseRNG.html">BaseRNG</a>&lt;Phillox&gt; {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  DEVICE <a class="code" href="classPhillox.html">Phillox</a>(uint64_t seed, uint32_t ctr, uint32_t global_seed=rnd::DEFAULT_GLOBAL_SEED)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      : seed_hi((uint32_t)(seed &gt;&gt; 32)), </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        seed_lo((uint32_t)(seed &amp; 0xFFFFFFFF)),</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        initctr_hi(global_seed),</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        initctr_lo(ctr) {}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt; DEVICE T draw() {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    generate();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    static_assert(std::is_same_v&lt;T, uint32_t&gt; || std::is_same_v&lt;T, uint64_t&gt;);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, uint32_t&gt;)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">return</span> _out[0];</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint64_t res =</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        (<span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(_out[0]) &lt;&lt; 32) | <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(_out[1]);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(res);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <a class="code" href="structrnd_1_1vec4.html">rnd::uint4</a> draw_int4() {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    generate();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structrnd_1_1vec4.html">rnd::uint4</a>{_out[0], _out[1], _out[2], _out[3]};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <a class="code" href="structrnd_1_1vec4.html">rnd::float4</a> draw_float4() {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    generate();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structrnd_1_1vec4.html">rnd::float4</a>{uniform&lt;float, uint32_t&gt;(_out[0]),</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                       uniform&lt;float, uint32_t&gt;(_out[1]),</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                       uniform&lt;float, uint32_t&gt;(_out[2]),</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                       uniform&lt;float, uint32_t&gt;(_out[3])};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  DEVICE <span class="keywordtype">void</span> generate() {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    uint32_t key[2] = {seed_hi, seed_lo};</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">// The counter takes one of the 4 values from internal counter, one from</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// global seed, and one is what the user provided during instantiation. Another </span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// is left constant. </span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;     </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">// The internal counter helps to avoid forcing user to increment counter each </span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">// time a number is generated.</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    _out[0] = 0x12345;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    _out[1] = _ctr;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    _out[2] = initctr_hi;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    _out[3] = initctr_lo;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> r = 0; r &lt; 10; r++) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keywordflow">if</span> (r &gt; 0){</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        key[0] += PHILOX_W32_0;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        key[1] += PHILOX_W32_1;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      round(key, _out);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    } </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    _ctr++;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="comment">// User provided seed and counter broken up, constant throughout </span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="comment">// the lifetime of the object</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keyword">const</span> uint32_t seed_hi, seed_lo;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keyword">const</span> uint32_t initctr_hi, initctr_lo;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="comment">// private counter to keep track of numbers generated by this instance of rng</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  uint32_t _ctr = 0;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  uint32_t _out[4];</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  };</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">namespace </span>openrand{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classopenrand_1_1Phillox.html">   46</a></span>&#160;<span class="keyword">class </span><a class="code" href="classopenrand_1_1Phillox.html">Phillox</a> : <span class="keyword">public</span> <a class="code" href="classopenrand_1_1BaseRNG.html">BaseRNG</a>&lt;Phillox&gt; {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  DEVICE <a class="code" href="classopenrand_1_1Phillox.html">Phillox</a>(uint64_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      : seed_hi((uint32_t)(seed &gt;&gt; 32)), </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        seed_lo((uint32_t)(seed &amp; 0xFFFFFFFF)),</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        initctr_hi(global_seed),</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        initctr_lo(ctr) {}</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt; DEVICE T draw() {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    generate();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    static_assert(std::is_same_v&lt;T, uint32_t&gt; || std::is_same_v&lt;T, uint64_t&gt;);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, uint32_t&gt;)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordflow">return</span> _out[0];</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    uint64_t res =</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        (<span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(_out[0]) &lt;&lt; 32) | <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(_out[1]);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(res);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <a class="code" href="structopenrand_1_1vec4.html">openrand::uint4</a> draw_int4() {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    generate();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structopenrand_1_1vec4.html">openrand::uint4</a>{_out[0], _out[1], _out[2], _out[3]};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <a class="code" href="structopenrand_1_1vec4.html">openrand::float4</a> draw_float4() {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    generate();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structopenrand_1_1vec4.html">openrand::float4</a>{uniform&lt;float, uint32_t&gt;(_out[0]),</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                       uniform&lt;float, uint32_t&gt;(_out[1]),</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                       uniform&lt;float, uint32_t&gt;(_out[2]),</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                       uniform&lt;float, uint32_t&gt;(_out[3])};</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  DEVICE <span class="keywordtype">void</span> generate() {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    uint32_t key[2] = {seed_hi, seed_lo};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// The counter takes one of the 4 values from internal counter, one from</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">// global seed, and one is what the user provided during instantiation. Another </span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">// is left constant. </span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;     </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">// The internal counter helps to avoid forcing user to increment counter each </span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">// time a number is generated.</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    _out[0] = 0x12345;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    _out[1] = _ctr;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    _out[2] = initctr_hi;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    _out[3] = initctr_lo;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> r = 0; r &lt; 10; r++) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="keywordflow">if</span> (r &gt; 0){</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        key[0] += PHILOX_W32_0;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        key[1] += PHILOX_W32_1;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      round(key, _out);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    } </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    _ctr++;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="comment">// User provided seed and counter broken up, constant throughout </span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="comment">// the lifetime of the object</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keyword">const</span> uint32_t seed_hi, seed_lo;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keyword">const</span> uint32_t initctr_hi, initctr_lo;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="comment">// private counter to keep track of numbers generated by this instance of rng</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  uint32_t _ctr = 0;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  uint32_t _out[4];</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  };</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// PHILLOX_H</span></div>
-<div class="ttc" id="aclassBaseRNG_html"><div class="ttname"><a href="classBaseRNG.html">BaseRNG</a></div><div class="ttdoc">Base class for random number generators.</div><div class="ttdef"><b>Definition:</b> base_state.hpp:20</div></div>
-<div class="ttc" id="aclassPhillox_html"><div class="ttname"><a href="classPhillox.html">Phillox</a></div><div class="ttdoc">Phillox generator.</div><div class="ttdef"><b>Definition:</b> phillox.h:44</div></div>
-<div class="ttc" id="astructrnd_1_1vec4_html"><div class="ttname"><a href="structrnd_1_1vec4.html">rnd::vec4</a></div><div class="ttdef"><b>Definition:</b> util.h:67</div></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;} <span class="comment">// namespace openrand</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// PHILLOX_H</span></div>
+<div class="ttc" id="aclassopenrand_1_1BaseRNG_html"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a></div><div class="ttdoc">Base class for random number generators.</div><div class="ttdef"><b>Definition:</b> base_state.hpp:22</div></div>
+<div class="ttc" id="aclassopenrand_1_1Phillox_html"><div class="ttname"><a href="classopenrand_1_1Phillox.html">openrand::Phillox</a></div><div class="ttdoc">Phillox generator.</div><div class="ttdef"><b>Definition:</b> phillox.h:46</div></div>
+<div class="ttc" id="astructopenrand_1_1vec4_html"><div class="ttname"><a href="structopenrand_1_1vec4.html">openrand::vec4</a></div><div class="ttdef"><b>Definition:</b> util.h:66</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
