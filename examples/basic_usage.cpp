@@ -7,6 +7,7 @@
 
 using std::cout;
 using std::endl;
+using namespace openrand;
 
 struct Particle {
   const int global_id;
@@ -27,7 +28,7 @@ int main() {
   double c = rng.rand<double>();
   float f = rng.rand<float>();
 
-  rnd::float4 f4 = rng.draw_float4();
+  float4 f4 = rng.draw_float4();
 
   cout << a << ", " << b << " " << c << " " << f << " " << f4.x << " " << f4.y
        << " " << f4.z << " " << f4.w << endl;

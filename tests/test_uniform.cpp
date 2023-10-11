@@ -6,6 +6,7 @@
 
 using std::cout;
 using std::endl;
+using namespace openrand;
 
 // TODO: Add std::is_trivially_copyable and std::is_trivially_destructible tests for all generator types
 

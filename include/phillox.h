@@ -36,6 +36,8 @@ inline DEVICE void round(const uint32_t (&key)[2], uint32_t (&ctr)[4]) {
 } // namespace
 
 
+namespace openrand{
+
 /**
  * @class Phillox
  * @brief Phillox generator
@@ -44,7 +46,7 @@ inline DEVICE void round(const uint32_t (&key)[2], uint32_t (&ctr)[4]) {
 class Phillox : public BaseRNG<Phillox> {
 
 public:
-  DEVICE Phillox(uint64_t seed, uint32_t ctr, uint32_t global_seed=rnd::DEFAULT_GLOBAL_SEED)
+  DEVICE Phillox(uint64_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)
       : seed_hi((uint32_t)(seed >> 32)), 
         seed_lo((uint32_t)(seed & 0xFFFFFFFF)),
         initctr_hi(global_seed),
@@ -63,14 +65,14 @@ public:
     return static_cast<uint64_t>(res);
   }
 
-  rnd::uint4 draw_int4() {
+  openrand::uint4 draw_int4() {
     generate();
-    return rnd::uint4{_out[0], _out[1], _out[2], _out[3]};
+    return openrand::uint4{_out[0], _out[1], _out[2], _out[3]};
   }
 
-  rnd::float4 draw_float4() {
+  openrand::float4 draw_float4() {
     generate();
-    return rnd::float4{uniform<float, uint32_t>(_out[0]),
+    return openrand::float4{uniform<float, uint32_t>(_out[0]),
                        uniform<float, uint32_t>(_out[1]),
                        uniform<float, uint32_t>(_out[2]),
                        uniform<float, uint32_t>(_out[3])};
@@ -110,6 +112,6 @@ private:
   uint32_t _out[4];
   };
 
-
+} // namespace openrand
 
 #endif // PHILLOX_H

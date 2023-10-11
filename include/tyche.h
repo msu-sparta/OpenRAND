@@ -13,9 +13,11 @@ namespace{
   }
 }
 
+namespace openrand{
+
 class Tyche : public BaseRNG<Tyche> {
 public:
-  DEVICE Tyche(uint64_t seed, uint32_t ctr, uint32_t global_seed=rnd::DEFAULT_GLOBAL_SEED) {
+  DEVICE Tyche(uint64_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED) {
     seed = seed ^ global_seed;
     a = static_cast<uint32_t>(seed >> 32);
     b = static_cast<uint32_t>(seed & 0xFFFFFFFFULL);
@@ -66,5 +68,6 @@ private:
   uint32_t c = 2654435769;
   uint32_t d = 1367130551;
 };
+} // namespace openrand
 
 #endif // TYCHE_H

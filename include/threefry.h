@@ -8,11 +8,12 @@
 
 #include "base_state.hpp"
 
+namespace openrand{
 
 class Threefry: public BaseRNG<Threefry>{
 public:
 
-    DEVICE Threefry(uint64_t seed, uint32_t ctr, uint32_t global_seed=rnd::DEFAULT_GLOBAL_SEED)
+    DEVICE Threefry(uint64_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)
     : seed(seed ^ global_seed),
       counter(ctr)
     {
@@ -109,5 +110,7 @@ private:
     uint32_t _ctr = 0;
 
 };
+
+} // namespace openrand
 
 #endif // THREEFRY_H

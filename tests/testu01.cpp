@@ -12,6 +12,9 @@ extern "C" {
 #include "../include/squares.h"
 #include "../include/phillox.h"
 
+using namespace openrand;
+
+
 // based on: https://www.pcg-random.org/posts/how-to-test-with-testu01.html
 
 

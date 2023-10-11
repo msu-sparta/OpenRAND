@@ -15,6 +15,7 @@
 using std::cout;
 using std::endl;
 using namespace std::chrono;
+using namespace openrand;
 
 const int N = 268435456; // no of 32 bits integers required for 1 GB data
 

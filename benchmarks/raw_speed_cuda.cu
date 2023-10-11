@@ -95,16 +95,16 @@ int main(){
 
 
     cout<<"Phillox: "<<endl;
-    measure_speed_cuda<Phillox>(deviceProp.multiProcessorCount);
+    measure_speed_cuda<openrand::Phillox>(deviceProp.multiProcessorCount);
 
     cout<<"Threefry: "<<endl;
-    measure_speed_cuda<Threefry>(deviceProp.multiProcessorCount);
+    measure_speed_cuda<openrand::Threefry>(deviceProp.multiProcessorCount);
 
     cout<<"Squares: "<<endl;
-    measure_speed_cuda<Squares>(deviceProp.multiProcessorCount);
+    measure_speed_cuda<openrand::Squares>(deviceProp.multiProcessorCount);
 
     cout<<"Tyche: "<<endl;
-    measure_speed_cuda<Tyche>(deviceProp.multiProcessorCount);
+    measure_speed_cuda<openrand::Tyche>(deviceProp.multiProcessorCount);
 
     return 0;
 }
