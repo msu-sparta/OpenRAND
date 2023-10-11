@@ -7,6 +7,9 @@
 #include "../include/threefry.h"
 
 
+using namespace openrand;
+
+
 // From build directory, run this as (modify path and generator name as needed):
 // ./tests/pract_rand philox | /home/shihab/codes/PractRand/RNG_test stdin32
 
@@ -32,13 +35,13 @@ int main(int argc, char* argv[]) {
     std::cout << "Generating stream for: " << arg << std::endl;
 
     if(arg == "philox")
-        generate_stream<Phillox>();
+        generate_stream<openrand::Phillox>();
     else if(arg == "tyche")
-        generate_stream<Tyche>();
+        generate_stream<openrand::Tyche>();
     else if(arg == "threefry")
-        generate_stream<Threefry>();
+        generate_stream<openrand::Threefry>();
     else if(arg == "squares")
-        generate_stream<Squares>();
+        generate_stream<openrand::Squares>();
     else
         std::cout << "Invalid argument." << std::endl;
 

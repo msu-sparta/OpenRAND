@@ -11,6 +11,7 @@
 
 using std::cout;
 using std::endl;
+using namespace openrand;
 
 #include <iostream>
 #include <vector>
@@ -54,7 +55,7 @@ void test_normalcy(){
         sample_data.push_back(rng.template randn<float>());
 
     while(sample_data.size() < num_draws){
-        rnd::double2 d2 = rng.template randn2<double>();
+        openrand::double2 d2 = rng.template randn2<double>();
         sample_data.push_back(d2.x);
         sample_data.push_back(d2.y);
     }

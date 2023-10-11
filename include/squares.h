@@ -66,10 +66,11 @@ DEVICE uint64_t hash_seed(int i){
 } // namespace
 
 
+namespace openrand{
 
 class Squares: public BaseRNG<Squares>{
 public:
-    DEVICE Squares(uint64_t seed, uint32_t _ctr, uint32_t global_seed=rnd::DEFAULT_GLOBAL_SEED)
+    DEVICE Squares(uint64_t seed, uint32_t _ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)
     :  seed(hash_seed(seed) ^ global_seed), ctr(static_cast<uint64_t>(_ctr) << 32)
     {}
 
@@ -102,5 +103,7 @@ private:
     const uint64_t seed;
     uint64_t ctr = 0;
 };
+
+} // namespace openrand
 
 #endif // SQUARES_H

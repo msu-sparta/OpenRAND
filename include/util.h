@@ -13,10 +13,9 @@
 #endif
 
 
-namespace rnd{
+namespace openrand{
 
 // NOTE: nvcc compiler replaces floating point variants with cuda built-in versions
-// NOTE: floating point variants are not part of std namespace for some reason
 
 constexpr uint32_t DEFAULT_GLOBAL_SEED = 0xAAAAAAAA;  // equal number of 0 and 1 bits
 
@@ -68,18 +67,18 @@ struct vec4{
     T x, y, z, w;
 };
 
-// for GPU, better to be explicit about the type
-using uint2 = rnd::vec2<uint32_t>;
-using uint3 = rnd::vec3<uint32_t>;
-using uint4 = rnd::vec4<uint32_t>;
+// for GPU, better to be explicit about the type and size
+using uint2 = vec2<uint32_t>;
+using uint3 = vec3<uint32_t>;
+using uint4 = vec4<uint32_t>;
 
-using float2 = rnd::vec2<float>;
-using float3 = rnd::vec3<float>;
-using float4 = rnd::vec4<float>;
+using float2 = vec2<float>;
+using float3 = vec3<float>;
+using float4 = vec4<float>;
 
-using double2 = rnd::vec2<double>;
-using double3 = rnd::vec3<double>;
-using double4 = rnd::vec4<double>;
+using double2 = vec2<double>;
+using double3 = vec3<double>;
+using double4 = vec4<double>;
 
 } // namespace rnd
 

@@ -10,6 +10,8 @@
 #include "../include/threefry.h"
 
 
+using namespace openrand;
+
 // Control parameters for this test program.
 const int C = 3; // C numbers from per stream
 const int NS = 100; // from NS streams

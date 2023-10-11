@@ -7,6 +7,8 @@
 
 #include "util.h"
 
+namespace openrand{
+
 /**
  * @brief Base class for random number generators.
  * 
@@ -76,9 +78,9 @@ public:
 
     T u = rand<T>();
     T v = rand<T>();
-    T r = rnd::sqrt(T(-2.0) * rnd::log(u));
+    T r = openrand::sqrt(T(-2.0) * openrand::log(u));
     T theta = v * M_PI2;
-    return r * rnd::cos(theta);
+    return r * openrand::cos(theta);
   }
 
   /**
@@ -88,16 +90,16 @@ public:
    * @return T random number from a normal distribution with mean 0 and std 1
    */
   template <typename T = float> 
-  DEVICE rnd::vec2<T> randn2() {
+  DEVICE vec2<T> randn2() {
     // Implements box-muller method
     static_assert(std::is_floating_point_v<T>);
     constexpr T M_PI2 = 2 * M_PI;
 
     T u = rand<T>();
     T v = rand<T>();
-    T r = rnd::sqrt(T(-2.0) * rnd::log(u));
+    T r = sqrt(T(-2.0) * log(u));
     T theta = v * M_PI2;
-    return {r * rnd::cos(theta), r * rnd::sin(theta)};
+    return {r * cos(theta), r * sin(theta)};
   }
 
   /**
@@ -129,7 +131,7 @@ public:
   template<typename T=float>
   DEVICE inline T gamma(T alpha, T b){
       T d = alpha - T((1./3.));
-      T c = T(1.) / rnd::sqrt(9.f * d);
+      T c = T(1.) / sqrt(9.f * d);
       T v, x;
       while(true){
           do{
@@ -144,7 +146,7 @@ public:
           if (u < 1.0f - 0.0331f * x2 *x2) 
             return (d * v * b);
 
-          if (rnd::log(u) < 0.5f * x2 + d * (1.0f - v + rnd::log(v))) 
+          if (log(u) < 0.5f * x2 + d * (1.0f - v + log(v))) 
               return (d * v * b);
       }
     }
@@ -155,5 +157,7 @@ private:
   */
   DEVICE __inline__ RNG &gen() { return *static_cast<RNG *>(this); }
 };
+
+} // namespace openrand
 
 #endif

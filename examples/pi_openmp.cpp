@@ -10,10 +10,11 @@
 
 using std::cout;
 using std::endl;
+using namespace openrand;
 
 
 double compute_pi(){
-  using RNG = Phillox;
+  using RNG = openrand::Phillox;
   const int nsamples = 10000000;
   int total_samples;
   int total_hits = 0;
