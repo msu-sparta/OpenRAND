@@ -1,3 +1,30 @@
+// @HEADER
+// *******************************************************************************
+//                                OpenRAND                                       *
+//   A Performance Portable, Reproducible Random Number Generation Library       *
+//                                                                               *
+// Copyright (c) 2023, Michigan State University                                 *
+//                                                                               *
+// Permission is hereby granted, free of charge, to any person obtaining a copy  *
+// of this software and associated documentation files (the "Software"), to deal *
+// in the Software without restriction, including without limitation the rights  *
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell     *
+// copies of the Software, and to permit persons to whom the Software is         *
+// furnished to do so, subject to the following conditions:                      *
+//                                                                               *
+// The above copyright notice and this permission notice shall be included in    *
+// all copies or substantial portions of the Software.                           *
+//                                                                               *
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR    *
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,      *
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE   *
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER        *
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, *
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE *
+// SOFTWARE.                                                                     *
+//********************************************************************************
+// @HEADER
+
 #include <iostream>
 #include <chrono>
 
@@ -6,14 +33,10 @@
 #include <cuda.h>
 
 
-#include "phillox.h"
-#include "threefry.h"
-#include "squares.h"
-#include "tyche.h"
-
-using std::cout;
-using std::endl;
-using namespace std::chrono;
+#include <openrand/phillox.h>
+#include <openrand/threefry.h>
+#include <openrand/squares.h>
+#include <openrand/tyche.h>
 
 const int N = 268435456; // no of 32 bits integers required for 1 GB data
 const int BLOCKSIZE = 256;
@@ -59,14 +82,14 @@ double measure_speed_cuda(int numSMs, bool warmup=false) {
     cudaMalloc((void **)&global_sum_dev, sizeof(uint32_t) * numBlocks);
 
     int nums_per_thread = N / (numBlocks * numThreadsPerBlock);
-    auto start = high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
 
     measure_speed_cuda_kernel<RNG><<<numBlocks, numThreadsPerBlock>>> \
         (global_sum_dev, nums_per_thread);
     cudaDeviceSynchronize();
 
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
     cudaMemcpy(global_sum, global_sum_dev, sizeof(uint32_t)*numBlocks, cudaMemcpyDeviceToHost);
     cudaFree(global_sum_dev);
@@ -94,16 +117,16 @@ int main(){
     std::cout << "Number of Streaming Multiprocessors (SMs): " << deviceProp.multiProcessorCount << std::endl;
 
 
-    cout<<"Phillox: "<<endl;
+    std::cout << "====Phillox====" << std::endl;
     measure_speed_cuda<openrand::Phillox>(deviceProp.multiProcessorCount);
 
-    cout<<"Threefry: "<<endl;
+    std::cout << "====Threefry====" << std::endl;
     measure_speed_cuda<openrand::Threefry>(deviceProp.multiProcessorCount);
 
-    cout<<"Squares: "<<endl;
+    std::cout << "====Squares====" << std::endl;
     measure_speed_cuda<openrand::Squares>(deviceProp.multiProcessorCount);
 
-    cout<<"Tyche: "<<endl;
+    std::cout << "====Tyche====" << std::endl;
     measure_speed_cuda<openrand::Tyche>(deviceProp.multiProcessorCount);
 
     return 0;
