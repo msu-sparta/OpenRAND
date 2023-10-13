@@ -61,16 +61,17 @@ TEST(RNG, basic) {
 }
 
 template <typename RNG>
-void test_mean() {
-  RNG rng(0, 0);
-  int num_draws = 1000;
+void test_mean(){
+    RNG rng(0, 0);
+    int num_draws = 1000;
+    std::uniform_real_distribution<float> rdist(0, 1.0);
 
-  float mean = 0;
-  for (int i = 0; i < num_draws; i++) {
-    mean += rng.template rand<float>();
-  }
-  mean /= num_draws;
-  EXPECT_NEAR(mean, 0.5, 0.0103);  // 99.99 % confidence
+    float mean = 0;
+    for (int i = 0; i < num_draws; i++) {
+        mean += rdist(rng);
+    }
+    mean /= num_draws;
+    EXPECT_NEAR(mean, 0.5, 0.0103); // 99.99 % confidence
 }
 
 TEST(Uniform, mean) {
@@ -78,4 +79,35 @@ TEST(Uniform, mean) {
   test_mean<openrand::Tyche>();
   test_mean<openrand::Threefry>();
   test_mean<openrand::Squares>();
+}
+
+template <typename RNG>
+void test_cpp_engine(){
+    RNG rng(42, 0);
+    
+    std::uniform_int_distribution<int> udist(0, 100);
+    udist(rng);
+
+    std::uniform_real_distribution<float> rdist(0, 100);
+    rdist(rng);
+
+    std::normal_distribution<float> ndist(0, 10.0f);
+    ndist(rng);
+
+    std::bernoulli_distribution bd(0.25);
+    bd(rng);
+
+    std::lognormal_distribution<double> lnd(1.6, 0.25);
+    lnd(rng);
+
+    std::student_t_distribution<> student_d{10.0f};
+    student_d(rng);
+
+}
+
+TEST(CPP11, engine) {
+    test_cpp_engine<Phillox>();
+    test_cpp_engine<Tyche>();
+    test_cpp_engine<Threefry>();
+    test_cpp_engine<Squares>();
 }
