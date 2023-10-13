@@ -1,40 +1,53 @@
 // @HEADER
 // *******************************************************************************
-//                                OpenRAND *
-//   A Performance Portable, Reproducible Random Number Generation Library *
+//                                OpenRAND                                       *
+//   A Performance Portable, Reproducible Random Number Generation Library       *
 //                                                                               *
-// Copyright (c) 2023, Michigan State University *
+// Copyright (c) 2023, Michigan State University                                 *
 //                                                                               *
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to
-// deal * in the Software without restriction, including without limitation the
-// rights  * to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell     * copies of the Software, and to permit persons to whom the
-// Software is         * furnished to do so, subject to the following
-// conditions:                      *
+// Permission is hereby granted, free of charge, to any person obtaining a copy  *
+// of this software and associated documentation files (the "Software"), to deal *
+// in the Software without restriction, including without limitation the rights  *
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell     *
+// copies of the Software, and to permit persons to whom the Software is         *
+// furnished to do so, subject to the following conditions:                      *
 //                                                                               *
-// The above copyright notice and this permission notice shall be included in *
-// all copies or substantial portions of the Software. *
+// The above copyright notice and this permission notice shall be included in    *
+// all copies or substantial portions of the Software.                           *
 //                                                                               *
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR *
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, *
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE *
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER *
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE * SOFTWARE. *
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR    *
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,      *
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE   *
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER        *
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, *
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE *
+// SOFTWARE.                                                                     *
 //********************************************************************************
 // @HEADER
 
 #include <gtest/gtest.h>
-
 #include <openrand/phillox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
 
-// TODO: Add std::is_trivially_copyable and std::is_trivially_destructible tests
+#include <random>
+
+// std::is_trivially_copyable and std::is_trivially_destructible tests
 // for all generator types
+TEST(RNG, trivially_copyable) {
+  EXPECT_TRUE(std::is_trivially_copyable<openrand::Phillox>::value);
+  EXPECT_TRUE(std::is_trivially_copyable<openrand::Tyche>::value);
+  EXPECT_TRUE(std::is_trivially_copyable<openrand::Threefry>::value);
+  EXPECT_TRUE(std::is_trivially_copyable<openrand::Squares>::value);
+}
+
+TEST(RNG, trivially_destructible) {
+  EXPECT_TRUE(std::is_trivially_destructible<openrand::Phillox>::value);
+  EXPECT_TRUE(std::is_trivially_destructible<openrand::Tyche>::value);
+  EXPECT_TRUE(std::is_trivially_destructible<openrand::Threefry>::value);
+  EXPECT_TRUE(std::is_trivially_destructible<openrand::Squares>::value);
+}
 
 template <typename RNG>
 void test_basic() {
@@ -61,17 +74,17 @@ TEST(RNG, basic) {
 }
 
 template <typename RNG>
-void test_mean(){
-    RNG rng(0, 0);
-    int num_draws = 1000;
-    std::uniform_real_distribution<float> rdist(0, 1.0);
+void test_mean() {
+  RNG rng(0, 0);
+  int num_draws = 1000;
+  std::uniform_real_distribution<float> rdist(0, 1.0);
 
-    float mean = 0;
-    for (int i = 0; i < num_draws; i++) {
-        mean += rdist(rng);
-    }
-    mean /= num_draws;
-    EXPECT_NEAR(mean, 0.5, 0.0103); // 99.99 % confidence
+  float mean = 0;
+  for (int i = 0; i < num_draws; i++) {
+    mean += rdist(rng);
+  }
+  mean /= num_draws;
+  EXPECT_NEAR(mean, 0.5, 0.0103);  // 99.99 % confidence
 }
 
 TEST(Uniform, mean) {
@@ -82,32 +95,31 @@ TEST(Uniform, mean) {
 }
 
 template <typename RNG>
-void test_cpp_engine(){
-    RNG rng(42, 0);
-    
-    std::uniform_int_distribution<int> udist(0, 100);
-    udist(rng);
+void test_cpp_engine() {
+  RNG rng(42, 0);
 
-    std::uniform_real_distribution<float> rdist(0, 100);
-    rdist(rng);
+  std::uniform_int_distribution<int> udist(0, 100);
+  udist(rng);
 
-    std::normal_distribution<float> ndist(0, 10.0f);
-    ndist(rng);
+  std::uniform_real_distribution<float> rdist(0, 100);
+  rdist(rng);
 
-    std::bernoulli_distribution bd(0.25);
-    bd(rng);
+  std::normal_distribution<float> ndist(0, 10.0f);
+  ndist(rng);
 
-    std::lognormal_distribution<double> lnd(1.6, 0.25);
-    lnd(rng);
+  std::bernoulli_distribution bd(0.25);
+  bd(rng);
 
-    std::student_t_distribution<> student_d{10.0f};
-    student_d(rng);
+  std::lognormal_distribution<double> lnd(1.6, 0.25);
+  lnd(rng);
 
+  std::student_t_distribution<> student_d{10.0f};
+  student_d(rng);
 }
 
 TEST(CPP11, engine) {
-    test_cpp_engine<Phillox>();
-    test_cpp_engine<Tyche>();
-    test_cpp_engine<Threefry>();
-    test_cpp_engine<Squares>();
+  test_cpp_engine<openrand::Phillox>();
+  test_cpp_engine<openrand::Tyche>();
+  test_cpp_engine<openrand::Threefry>();
+  test_cpp_engine<openrand::Squares>();
 }

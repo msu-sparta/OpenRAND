@@ -28,11 +28,11 @@
 #ifndef OPENRAND_BASE_STATE_H_
 #define OPENRAND_BASE_STATE_H_
 
+#include <openrand/util.h>
+
 #include <cstdint>
 #include <limits>
 #include <type_traits>
-
-#include <openrand/util.h>
 
 namespace openrand {
 
@@ -49,20 +49,23 @@ namespace openrand {
 template <typename RNG>
 class BaseRNG {
  public:
-
   using result_type = uint32_t;
 
-  static constexpr result_type min() { return 0u; }
-  static constexpr result_type max() { return ~((result_type)0);}
+  static constexpr result_type min() {
+    return 0u;
+  }
+  static constexpr result_type max() {
+    return ~((result_type)0);
+  }
 
   /**
-   * @brief Generates a 32 bit unsigned integer from a uniform distribution. 
-   * 
+   * @brief Generates a 32 bit unsigned integer from a uniform distribution.
+   *
    * This function is needed to conform to C++ engine interface
-   * 
+   *
    * @return uint32_t random number from a uniform distribution
    */
-  DEVICE result_type operator()(){
+  DEVICE result_type operator()() {
     return gen().template draw<uint32_t>();
   }
 

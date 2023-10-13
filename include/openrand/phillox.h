@@ -28,12 +28,12 @@
 #ifndef OPENRAND_PHILLOX_H_
 #define OPENRAND_PHILLOX_H_
 
+#include <openrand/base_state.h>
+
 #include <array>
 #include <cstdint>
 #include <iostream>
 #include <limits>
-
-#include <openrand/base_state.h>
 
 namespace {
 

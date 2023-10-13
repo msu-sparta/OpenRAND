@@ -28,9 +28,8 @@
 #ifndef OPENRAND_SQUARES_H_
 #define OPENRAND_SQUARES_H_
 
-#include <stdint.h>
-
 #include <openrand/base_state.h>
+#include <stdint.h>
 
 namespace {
 
