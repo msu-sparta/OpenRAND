@@ -96,6 +96,10 @@ $(function() {
 <div class="line"> </div>
 <div class="line">// A double with mean 10 and standard deviation 5</div>
 <div class="line">auto d = rng.randn&lt;double&gt;(10.0, 5.0);</div>
+</div><!-- fragment --><p>You can pair these generators seamlessly with the built-in distribution functions from C++'s &lt;random&gt; library:</p>
+<div class="fragment"><div class="line">RNG rng(12345, 1);</div>
+<div class="line">std::normal_distribution&lt;double&gt; dist(0.0, 1.0);</div>
+<div class="line">double x = dist(rng);</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
 Parallel Streams</h1>
 <p>In a parellel program, it's a good idea to let all your threads have their local random streams. In an OpenMP program you can -</p>
@@ -117,7 +121,7 @@ GPU</h1>
 <p>It's time to introduce the <code>counter</code> argument.</p>
 <p>You can think of a single <code>seed</code> capable of producing a unique stream of length 2^64. This stream is divided into 2^32 <em>substreams</em>, each of length 2^32. The <code>counter</code> argument is used to select a substream.</p>
 <p>For reproducibility, on GPU, it's better to think in terms of work-unit or processing element instead of thread. For example, in a history-based simulation, a work-unit models the entire lifespan of one particle. In a ray tracing renderer, it can be a pixel index. A work-unit can undergo multiple kerel launches in it's lifetime.</p>
-<p>One random number stream par particle isn't ideal, it's good to have one at each kernel launch for a particle. In this way, you can avoid the overhead of a seperate kernel launch just to initialize random states, loading them from global memory inside each kernel, and saving back the modified state etc. <code>counter</code> helps you get around all that, by cheaply creating a substream for each kernel launch.</p>
+<p>One random number stream per work-item isn't ideal, it's often better to have a unique stream at each kernel launch for a work-item. In this way, you can avoid the overhead of a seperate kernel launch just to initialize random states, loading them from global memory inside each kernel, and saving back the modified state etc. <code>counter</code> helps you get around all that, by cheaply creating a substream for each kernel launch.</p>
 <p>Here's an example of a typical use-case on GPU: a monte carlo paticle simulation code that runs for 10,000 time steps. We can simply use the iteration number as <code>counter</code>. For <code>seed</code>, we assume each thread below has a unique global id atribute called <code>pid</code>.</p>
 <div class="fragment"><div class="line">__global__ </div>
 <div class="line">void apply_forces(Particle *particles, int counter){</div>
@@ -143,7 +147,8 @@ GPU</h1>
 <div class="line">        ...</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><p>Interestingly, notice we've spent 0 bits of global memory to keep track of the random number states. In theory, you will need about 96 bits of memory (64 bit seed + 32 bit counter) per work-item to maintain the state of a random number generator. This is already pretty small. But we expect that in majoriy of cases, like the example above, even that won't be necessary. </p>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

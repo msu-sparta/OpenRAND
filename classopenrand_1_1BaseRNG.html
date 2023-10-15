@@ -68,7 +68,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classopenrand_1_1BaseRNG-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">openrand::BaseRNG&lt; RNG &gt; Class Template Reference</div>  </div>
@@ -80,8 +82,17 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="base__state_8h_source.html">base_state.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a9ccef7e68a2bfd92e790786d15e6d436"><td class="memItemLeft" align="right" valign="top"><a id="a9ccef7e68a2bfd92e790786d15e6d436"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>result_type</b> = uint32_t</td></tr>
+<tr class="separator:a9ccef7e68a2bfd92e790786d15e6d436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a457b4adb35de9e24c06b98a47d639218"><td class="memItemLeft" align="right" valign="top">DEVICE result_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a457b4adb35de9e24c06b98a47d639218">operator()</a> ()</td></tr>
+<tr class="memdesc:a457b4adb35de9e24c06b98a47d639218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a 32 bit unsigned integer from a uniform distribution.  <a href="classopenrand_1_1BaseRNG.html#a457b4adb35de9e24c06b98a47d639218">More...</a><br /></td></tr>
+<tr class="separator:a457b4adb35de9e24c06b98a47d639218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46d54cb9d1725d85bf603fbcf6e20a40"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
 <tr class="memitem:a46d54cb9d1725d85bf603fbcf6e20a40"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a46d54cb9d1725d85bf603fbcf6e20a40">rand</a> ()</td></tr>
 <tr class="memdesc:a46d54cb9d1725d85bf603fbcf6e20a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a uniform distribution between 0 and 1.  <a href="classopenrand_1_1BaseRNG.html#a46d54cb9d1725d85bf603fbcf6e20a40">More...</a><br /></td></tr>
@@ -110,6 +121,15 @@ template&lt;typename Ftype , typename Utype &gt; </td></tr>
 <tr class="memitem:a982e115c5a134e6b818caf05d0e29058"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">gamma</a> (T alpha, T b)</td></tr>
 <tr class="memdesc:a982e115c5a134e6b818caf05d0e29058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a gamma distribution with shape alpha and scale b.  <a href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">More...</a><br /></td></tr>
 <tr class="separator:a982e115c5a134e6b818caf05d0e29058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a904a338e0c52052bc1003f6d9ad30077"><td class="memItemLeft" align="right" valign="top"><a id="a904a338e0c52052bc1003f6d9ad30077"></a>
+static constexpr result_type&#160;</td><td class="memItemRight" valign="bottom"><b>min</b> ()</td></tr>
+<tr class="separator:a904a338e0c52052bc1003f6d9ad30077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cf14ef085c1c9b435e447ba4478ca86"><td class="memItemLeft" align="right" valign="top"><a id="a8cf14ef085c1c9b435e447ba4478ca86"></a>
+static constexpr result_type&#160;</td><td class="memItemRight" valign="bottom"><b>max</b> ()</td></tr>
+<tr class="separator:a8cf14ef085c1c9b435e447ba4478ca86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename RNG&gt;<br />
@@ -178,6 +198,37 @@ template&lt;typename T  = float&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>T random number from a gamma distribution with shape alpha and scale b </dd></dl>
+
+</div>
+</div>
+<a id="a457b4adb35de9e24c06b98a47d639218"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a457b4adb35de9e24c06b98a47d639218">&#9670;&nbsp;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DEVICE result_type <a class="el" href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a>&lt; RNG &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generates a 32 bit unsigned integer from a uniform distribution. </p>
+<p>This function is needed to conform to C++ engine interface</p>
+<dl class="section return"><dt>Returns</dt><dd>uint32_t random number from a uniform distribution </dd></dl>
 
 </div>
 </div>

@@ -98,16 +98,19 @@ Usage</h1>
 <div class="line">    // Initialize RNG with seed and counter</div>
 <div class="line">    RNG rng(1, 0);</div>
 <div class="line"> </div>
-<div class="line">    // Draw random numbers of many types</div>
-<div class="line">    int a = rng.rand&lt;int&gt;();</div>
-<div class="line">    auto b = rng.rand&lt;long long int&gt;();</div>
-<div class="line">    double c = rng.rand&lt;double&gt;();</div>
-<div class="line">    float f = rng.rand&lt;float&gt;();</div>
+<div class="line">    // Draw uniform random numbers of many types</div>
+<div class="line">    int a = rng.rand&lt;int&gt;();            // range [0,2^32) </div>
+<div class="line">    auto b = rng.rand&lt;long long int&gt;(); // range [0,2^64)</div>
+<div class="line">    double c = rng.rand&lt;double&gt;();      // range [0,1)</div>
+<div class="line">    float f = rng.rand&lt;float&gt;();        // range [0,1)</div>
+<div class="line"> </div>
+<div class="line">    // use std distribution functions with RNG</div>
+<div class="line">    double x = std::lognormal_distribution&lt;double&gt; dist(0.0, 1.0);</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>The seed should correspond a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the (1D) pixel index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.</p>
-<p>Below is a monte carlo paticle simulation example that runs for 10000 time steps. We can simply use the iteration number as <code>counter</code>. For <code>seed</code>, we assume each thread below has a unique global id atribute called <code>pid</code>.</p>
-<div class="fragment"><div class="line">__global__ void apply_forces(Particle *particles, int counter, double sqrt_dt){</div>
+</div><!-- fragment --><p>The seed should correspond to a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the (1D) pixel index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches in it's lifespan (with a new random stream required in each).</p>
+<p>Below is a simplified monte carlo paticle simulation example that runs for 10000 time steps. Conveniently, we can simply use the iteration number as the <code>counter</code> for all particles. For <code>seed</code>, we assume each particle below has a unique global id atribute called <code>pid</code>.</p>
+<div class="fragment"><div class="line">__global__ void apply_forces(Particle *particles, int counter){</div>
 <div class="line">    int i = blockIdx.x * blockDim.x + threadIdx.x;</div>
 <div class="line">    Particle p = particles[i];</div>
 <div class="line">    ...</div>
@@ -115,7 +118,7 @@ Usage</h1>
 <div class="line">    // Apply random force</div>
 <div class="line">    RNG local_rand_state(p.pid, counter);</div>
 <div class="line">    </div>
-<div class="line">    p.vx += (local_rand_state.rand&lt;double&gt;()  * 2.0 - 1.0) * sqrt_dt;</div>
+<div class="line">    p.vx += (local_rand_state.rand&lt;double&gt;()  * 2.0 - 1.0);</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
 <div class="line"> </div>
@@ -126,7 +129,7 @@ Usage</h1>
 <div class="line">    // Simulation loop</div>
 <div class="line">    int iter = 0;</div>
 <div class="line">    while (iter++ &lt; 10000) {</div>
-<div class="line">        apply_forces&lt;&lt;&lt;nblocks, nthreads&gt;&gt;&gt;(particles, iter, sqrt_dt);</div>
+<div class="line">        apply_forces&lt;&lt;&lt;nblocks, nthreads&gt;&gt;&gt;(particles, iter);</div>
 <div class="line">        ...</div>
 <div class="line">    }</div>
 <div class="line">}</div>
