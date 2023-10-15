@@ -43,21 +43,24 @@ int main() {
     // Initialize RNG with seed and counter
     RNG rng(1, 0);
 
-    // Draw random numbers of many types
-    int a = rng.rand<int>();
-    auto b = rng.rand<long long int>();
-    double c = rng.rand<double>();
-    float f = rng.rand<float>();
+    // Draw uniform random numbers of many types
+    int a = rng.rand<int>();            // range [0,2^32) 
+    auto b = rng.rand<long long int>(); // range [0,2^64)
+    double c = rng.rand<double>();      // range [0,1)
+    float f = rng.rand<float>();        // range [0,1)
+
+    // use std distribution functions with RNG
+    double x = std::lognormal_distribution<double> dist(0.0, 1.0);
     ...
 }
 ```
 
-The seed should correspond a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the (1D) pixel index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches (with a new random stream required in each) in it's lifespan.
+The seed should correspond to a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the (1D) pixel index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches in it's lifespan (with a new random stream required in each).
 
-Below is a monte carlo paticle simulation example that runs for 10000 time steps. We can simply use the iteration number as `counter`. For `seed`, we assume each thread below has a unique global id atribute called `pid`. 
+Below is a simplified monte carlo paticle simulation example that runs for 10000 time steps. Conveniently, we can simply use the iteration number as the `counter` for all particles. For `seed`, we assume each particle below has a unique global id atribute called `pid`. 
 
 ```
-__global__ void apply_forces(Particle *particles, int counter, double sqrt_dt){
+__global__ void apply_forces(Particle *particles, int counter){
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     Particle p = particles[i];
     ...
@@ -65,7 +68,7 @@ __global__ void apply_forces(Particle *particles, int counter, double sqrt_dt){
     // Apply random force
     RNG local_rand_state(p.pid, counter);
     
-    p.vx += (local_rand_state.rand<double>()  * 2.0 - 1.0) * sqrt_dt;
+    p.vx += (local_rand_state.rand<double>()  * 2.0 - 1.0);
     ...
 }
 
@@ -76,7 +79,7 @@ int main(){
     // Simulation loop
     int iter = 0;
     while (iter++ < 10000) {
-        apply_forces<<<nblocks, nthreads>>>(particles, iter, sqrt_dt);
+        apply_forces<<<nblocks, nthreads>>>(particles, iter);
         ...
     }
 }
