@@ -34,3 +34,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/build/html
+        # `keep_files` added to keep results and other `gh-pages` branch-only files intact 
+        keep_files: true    
+
