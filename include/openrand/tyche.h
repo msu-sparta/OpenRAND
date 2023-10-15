@@ -28,11 +28,11 @@
 #ifndef OPENRAND_TYCHE_H_
 #define OPENRAND_TYCHE_H_
 
+#include <openrand/base_state.h>
+
 #include <cstdint>
 #include <iostream>
 #include <limits>
-
-#include <openrand/base_state.h>
 
 namespace {
 inline DEVICE uint32_t rotl(uint32_t value, unsigned int x) {

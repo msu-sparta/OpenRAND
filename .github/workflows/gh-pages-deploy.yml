@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
         contents: write
+        pull-requests: write
+        pages: write
+
 
     steps:
     - name: Checkout Code
@@ -26,6 +29,7 @@ jobs:
       run: doxygen Doxyfile
 
     - name: Deploy to GitHub Pages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -41,6 +41,14 @@ The API follows numpy style. If you want a floating point from a normal distribu
     auto d = rng.randn<double>(10.0, 5.0);
 ```
 
+You can pair these generators seamlessly with the built-in distribution functions from C++'s <random> library:
+
+```
+    RNG rng(12345, 1);
+    std::normal_distribution<double> dist(0.0, 1.0);
+    double x = dist(rng);
+```
+
 ## Parallel Streams
 
 In a parellel program, it's a good idea to let all your threads have their local random streams. In an OpenMP program you can - 
@@ -69,7 +77,7 @@ You can think of a single `seed` capable of producing a unique stream of length 
 
 For reproducibility, on GPU, it's better to think in terms of work-unit or processing element instead of thread. For example, in a history-based simulation, a work-unit models the entire lifespan of one particle. In a ray tracing renderer, it can be a pixel index. A work-unit can undergo multiple kerel launches in it's lifetime. 
 
-One random number stream par particle isn't ideal, it's good to have one at each kernel launch for a particle. In this way, you can avoid the overhead of a seperate kernel launch just to initialize random states, loading them from global memory inside each kernel, and saving back the modified state etc. `counter` helps you get around all that, by cheaply creating a substream for each kernel launch.
+One random number stream per work-item isn't ideal, it's often better to have a unique stream at each kernel launch for a work-item. In this way, you can avoid the overhead of a seperate kernel launch just to initialize random states, loading them from global memory inside each kernel, and saving back the modified state etc. `counter` helps you get around all that, by cheaply creating a substream for each kernel launch.
 
 
 Here's an example of a typical use-case on GPU: a monte carlo paticle simulation code that runs for 10,000 time steps. We can simply use the iteration number as `counter`. For `seed`, we assume each thread below has a unique global id atribute called `pid`. 
@@ -102,5 +110,4 @@ int main(){
 
 ```
 
-
-
+Interestingly, notice we've spent 0 bits of global memory to keep track of the random number states. In theory, you will need about 96 bits of memory (64 bit seed + 32 bit counter) per work-item to maintain the state of a random number generator. This is already pretty small. But we expect that in majoriy of cases, like the example above, even that won't be necessary. 

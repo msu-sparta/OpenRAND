@@ -79,8 +79,10 @@ void generate_multi_stream() {
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
-    std::cout << "Please provide one argument specifying the generator name.\n"
-              << "Valid options are 'philox', 'tyche', 'threefry', or 'squares'." << std::endl;
+    std::cout
+        << "Please provide one argument specifying the generator name.\n"
+        << "Valid options are 'philox', 'tyche', 'threefry', or 'squares'."
+        << std::endl;
     return 1;
   }
 

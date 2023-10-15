@@ -27,12 +27,6 @@
 // @HEADER
 
 #include <gtest/gtest.h>
-
-#include <cstdint>
-#include <fstream>
-#include <iostream>
-#include <vector>
-
 #include <openrand/phillox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
@@ -40,6 +34,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <vector>
