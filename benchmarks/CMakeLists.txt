@@ -1,5 +1,6 @@
-add_executable(raw_speed raw_speed.cpp)
-target_include_directories(raw_speed PRIVATE ${CMAKE_SOURCE_DIR}/include)
+add_executable(raw_speed_cpu raw_speed_cpu.cpp)
+target_include_directories(raw_speed_cpu PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(raw_speed_cpu benchmark::benchmark)
 
 
 include(CheckLanguage)
