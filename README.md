@@ -50,7 +50,8 @@ int main() {
     float f = rng.rand<float>();        // range [0,1)
 
     // use std distribution functions with RNG
-    double x = std::lognormal_distribution<double> dist(0.0, 1.0);
+    std::lognormal_distribution<double> dist(0.0, 1.0);
+    double x = dist(rng);
     ...
 }
 ```
