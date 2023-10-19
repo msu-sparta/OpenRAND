@@ -105,7 +105,8 @@ Usage</h1>
 <div class="line">    float f = rng.rand&lt;float&gt;();        // range [0,1)</div>
 <div class="line"> </div>
 <div class="line">    // use std distribution functions with RNG</div>
-<div class="line">    double x = std::lognormal_distribution&lt;double&gt; dist(0.0, 1.0);</div>
+<div class="line">    std::lognormal_distribution&lt;double&gt; dist(0.0, 1.0);</div>
+<div class="line">    double x = dist(rng);</div>
 <div class="line">    ...</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>The seed should correspond to a work-unit of the program. For example, it could be the unique global id of a particle in a monte carlo simulation, or the (1D) pixel index in a ray tracing renderer. The counter should be incremented every time a new random number is drawn for a particular seed. This is helpful, for example, when a particle undergoes multiple kernel launches in it's lifespan (with a new random stream required in each).</p>
