@@ -24,3 +24,64 @@
 // SOFTWARE.                                                                     *
 //********************************************************************************
 // @HEADER
+
+/**
+ * Compute Pi using monte carlo method.
+ *
+ * For simplicity, we ignore usual error checking here.
+ */
+
+#include <curand_kernel.h>
+#include <openrand/tyche.h>
+
+#include <cmath>
+#include <iostream>
+
+const int N = 100000000;                      // Number of points
+const int SAMPLES_PER_THREAD = 1000;          // Number of samples per thread
+const int NTHREADS = N / SAMPLES_PER_THREAD;  // Number of threads
+const int THREADS_PER_BLOCK = 256;            // Number of threads per block
+
+typedef openrand::Tyche RNG;
+
+__global__ void monteCarloPi(int *d_sum) {
+  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+  RNG rng(idx, 0);
+  int localHits = 0;
+
+  for (int i = 0; i < SAMPLES_PER_THREAD; i++) {
+    // Generate random numbers in [0, 1]
+    float x = rng.rand();
+    float y = rng.rand();
+    if (x * x + y * y <= 1.0f) localHits++;
+  }
+
+  atomicAdd(d_sum, localHits);
+}
+
+int main() {
+  int *d_sum;
+
+  std::cout << "Number of samples: " << N << std::endl;
+  std::cout << "Number of samples per thread: " << SAMPLES_PER_THREAD
+            << std::endl;
+  std::cout << "Number of threads: " << NTHREADS << std::endl;
+
+  cudaMalloc(&d_sum, sizeof(int));
+  cudaMemset(d_sum, 0, sizeof(int));
+
+  int nblocks = (NTHREADS + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
+  monteCarloPi<<<THREADS_PER_BLOCK, nblocks>>>(d_sum);
+
+  int h_sum;
+  cudaMemcpy(&h_sum, d_sum, sizeof(int), cudaMemcpyDeviceToHost);
+
+  float pi = 4.0 * (float)h_sum / N;
+
+  std::cout << "Approximated value of Pi: " << pi << std::endl;
+
+  cudaFree(d_sum);
+
+  return 0;
+}
