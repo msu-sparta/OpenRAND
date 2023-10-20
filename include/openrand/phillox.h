@@ -35,21 +35,18 @@
 #include <iostream>
 #include <limits>
 
-
 #define PHILOX_W0 0x9E3779B9
 #define PHILOX_W1 0xBB67AE85
 #define PHILOX_M0 0xD2511F53
 #define PHILOX_M1 0xCD9E8D57
 
-
 namespace openrand {
-  
 
 /**
  * @class Phillox
  * @brief Phillox generator
- * @note This is a modified version of Phillox generator from Random123 library. 
- * This uses 4x 32-bit counter, 2x 32-bit key along with 10 rounds. 
+ * @note This is a modified version of Phillox generator from Random123 library.
+ * This uses 4x 32-bit counter, 2x 32-bit key along with 10 rounds.
  */
 class Phillox : public BaseRNG<Phillox> {
  public:
@@ -126,8 +123,6 @@ class Phillox : public BaseRNG<Phillox> {
     ctr[2] = hi0 ^ ctr[3] ^ key[1];
     ctr[3] = lo0;
   }
-
-
 
   // User provided seed and counter broken up, constant throughout
   // the lifetime of the object
