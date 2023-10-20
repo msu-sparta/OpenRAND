@@ -22,7 +22,7 @@ os.makedirs(RES_DIR, exist_ok=True)
 PRACT_RND_EXEC = os.path.join(BUILD_DIR, "Practrand", "RNG_test")
 
 for gen in ["philox", "tyche", "threefry", "squares"]:
-    command  = f"{BUILD_DIR}/tests/pract_rand_multi {gen} | {PRACT_RND_EXEC} stdin32 -multithreaded -tlmax 4GB > {RES_DIR}/practrandm_{gen}.txt"
+    command  = f"{BUILD_DIR}/tests/pract_rand_multi {gen} | {PRACT_RND_EXEC} stdin32 -multithreaded -tlmax 8GB > {RES_DIR}/practrandm_{gen}.txt"
 
     p = subprocess.Popen(command, shell=True)
     p.name = f"practrand_{gen}"

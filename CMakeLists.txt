@@ -39,6 +39,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     GIT_TAG        main
     CMAKE_ARGS     -DCMAKE_BUILD_TYPE=Release
   )
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(google_benchmark)
 endif()
 
