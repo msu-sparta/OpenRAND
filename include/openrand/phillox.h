@@ -35,30 +35,10 @@
 #include <iostream>
 #include <limits>
 
-namespace {
-
-constexpr uint32_t PHILOX_M4x32_0 = 0xD2511F53;
-constexpr uint32_t PHILOX_M4x32_1 = 0xCD9E8D57;
-constexpr uint32_t PHILOX_W32_0 = 0x9E3779B9;
-constexpr uint32_t PHILOX_W32_1 = 0xBB67AE85;
-
-inline DEVICE uint32_t mulhilo(uint32_t L, uint32_t R, uint32_t *hip) {
-  uint64_t product = static_cast<uint64_t>(L) * static_cast<uint64_t>(R);
-  *hip = product >> 32;
-  return static_cast<uint32_t>(product);
-}
-
-inline DEVICE void round(const uint32_t (&key)[2], uint32_t (&ctr)[4]) {
-  uint32_t hi0;
-  uint32_t hi1;
-  uint32_t lo0 = mulhilo(PHILOX_M4x32_0, ctr[0], &hi0);
-  uint32_t lo1 = mulhilo(PHILOX_M4x32_1, ctr[2], &hi1);
-  ctr[0] = hi1 ^ ctr[1] ^ key[0];
-  ctr[1] = lo1;
-  ctr[2] = hi0 ^ ctr[3] ^ key[1];
-  ctr[3] = lo0;
-}
-}  // namespace
+#define PHILOX_W0 0x9E3779B9
+#define PHILOX_W1 0xBB67AE85
+#define PHILOX_M0 0xD2511F53
+#define PHILOX_M1 0xCD9E8D57
 
 namespace openrand {
 
@@ -66,6 +46,7 @@ namespace openrand {
  * @class Phillox
  * @brief Phillox generator
  * @note This is a modified version of Phillox generator from Random123 library.
+ * This uses 4x 32-bit counter, 2x 32-bit key along with 10 rounds.
  */
 class Phillox : public BaseRNG<Phillox> {
  public:
@@ -118,12 +99,29 @@ class Phillox : public BaseRNG<Phillox> {
 
     for (int r = 0; r < 10; r++) {
       if (r > 0) {
-        key[0] += PHILOX_W32_0;
-        key[1] += PHILOX_W32_1;
+        key[0] += PHILOX_W0;
+        key[1] += PHILOX_W1;
       }
       round(key, _out);
     }
     _ctr++;
+  }
+
+  inline DEVICE uint32_t mulhilo(uint32_t L, uint32_t R, uint32_t *hip) {
+    uint64_t product = static_cast<uint64_t>(L) * static_cast<uint64_t>(R);
+    *hip = product >> 32;
+    return static_cast<uint32_t>(product);
+  }
+
+  inline DEVICE void round(const uint32_t (&key)[2], uint32_t (&ctr)[4]) {
+    uint32_t hi0;
+    uint32_t hi1;
+    uint32_t lo0 = mulhilo(PHILOX_M0, ctr[0], &hi0);
+    uint32_t lo1 = mulhilo(PHILOX_M1, ctr[2], &hi1);
+    ctr[0] = hi1 ^ ctr[1] ^ key[0];
+    ctr[1] = lo1;
+    ctr[2] = hi0 ^ ctr[3] ^ key[1];
+    ctr[3] = lo0;
   }
 
   // User provided seed and counter broken up, constant throughout

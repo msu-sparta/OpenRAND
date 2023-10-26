@@ -32,7 +32,10 @@
  */
 
 #include <curand_kernel.h>
+#include <openrand/phillox.h>
 #include <openrand/tyche.h>
+#include <openrand/threefry.h>
+#include <openrand/squares.h>
 
 #include <cmath>
 #include <iostream>
@@ -42,7 +45,7 @@ const int SAMPLES_PER_THREAD = 1000;          // Number of samples per thread
 const int NTHREADS = N / SAMPLES_PER_THREAD;  // Number of threads
 const int THREADS_PER_BLOCK = 256;            // Number of threads per block
 
-typedef openrand::Tyche RNG;
+typedef openrand::Phillox RNG;
 
 __global__ void monteCarloPi(int *d_sum) {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -77,9 +80,11 @@ int main() {
   int h_sum;
   cudaMemcpy(&h_sum, d_sum, sizeof(int), cudaMemcpyDeviceToHost);
 
-  float pi = 4.0 * (float)h_sum / N;
+  double pi_estimate = 4.0 * (float)h_sum / N;
 
-  std::cout << "Approximated value of Pi: " << pi << std::endl;
+  constexpr double pi = 3.14159265358979323846;
+  std::cout << "pi_estimate: " << pi_estimate << std::endl;
+  std::cout << "log10(|pi - pi_estimate|): " << std::log10(std::abs(pi - pi_estimate)) << std::endl;
 
   cudaFree(d_sum);
 

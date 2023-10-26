@@ -70,6 +70,8 @@ int main() {
   double pi_estimate = compute_pi();
 
   constexpr double pi = 3.14159265358979323846;
+
+  std::cout << "pi_estimate: " << pi_estimate << std::endl;
   std::cout << "log10(|pi - pi_estimate|): " << std::log10(std::abs(pi - pi_estimate)) << std::endl;
 
   return 0;
