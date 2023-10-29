@@ -35,10 +35,10 @@ FetchContent_MakeAvailable(crng)
 Here's a simple example of how to generate random numbers using OpenRAND:
 
 ```
-#include <phillox.h>
+#include <openrand/phillox.h>
 
 int main() {
-    using RNG = Phillox; // Tyche
+    using RNG = openrand::Phillox;  // Or, for example, Tyche
     
     // Initialize RNG with seed and counter
     RNG rng(1, 0);
