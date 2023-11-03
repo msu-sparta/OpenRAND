@@ -74,6 +74,43 @@ TEST(RNG, basic) {
 }
 
 template <typename RNG>
+void test_range(){
+  RNG rng (1234567, 1234567);
+
+  double mean = 0;
+  for(int i = 0; i < 1000; i++){
+    auto x = rng.uniform(10.0, 20.0);
+    mean += x;
+    EXPECT_TRUE((x >= 10.0) && (x <= 20.0));
+  }
+  EXPECT_NEAR(mean / 1000.0, 15.0, 0.36);  // 99.99 % confidence
+
+  mean = 0;
+  for(int i = 0; i < 1000; i++){
+    auto x = rng.uniform(-20.0, -10.0);
+    mean += x;
+    EXPECT_TRUE((x >= -20.0) && (x <= -10.0));
+  }
+  EXPECT_NEAR(mean / 1000.0, -15.0, 0.36);
+
+  // For integer type, this method is slightly biased towards lower numbers.
+  mean = 0;
+  for(int i = 0; i < 1000; i++){
+    auto x = rng.template uniform<int>(10,20);
+    mean += (float)x;
+    EXPECT_TRUE((x >= 10) && (x <= 20));
+  }
+  EXPECT_NEAR(mean / 1000.0, 15.0, 1.0);
+}
+
+TEST(RNG, range){
+  test_range<openrand::Phillox>();
+  test_range<openrand::Tyche>();
+  test_range<openrand::Threefry>();
+  test_range<openrand::Squares>();
+}
+
+template <typename RNG>
 void test_mean() {
   RNG rng(0, 0);
   int num_draws = 1000;
