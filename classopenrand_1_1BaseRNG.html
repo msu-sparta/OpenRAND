@@ -71,6 +71,7 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classopenrand_1_1BaseRNG-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">openrand::BaseRNG&lt; RNG &gt; Class Template Reference</div>  </div>
@@ -97,14 +98,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a46d54cb9d1725d85bf603fbcf6e20a40"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a46d54cb9d1725d85bf603fbcf6e20a40">rand</a> ()</td></tr>
 <tr class="memdesc:a46d54cb9d1725d85bf603fbcf6e20a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a uniform distribution between 0 and 1.  <a href="classopenrand_1_1BaseRNG.html#a46d54cb9d1725d85bf603fbcf6e20a40">More...</a><br /></td></tr>
 <tr class="separator:a46d54cb9d1725d85bf603fbcf6e20a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85aa5ab259c425cd0ab9cbc8ef35a01e"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
+<tr class="memitem:a85aa5ab259c425cd0ab9cbc8ef35a01e"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a85aa5ab259c425cd0ab9cbc8ef35a01e">uniform</a> (const T low, const T high)</td></tr>
+<tr class="memdesc:a85aa5ab259c425cd0ab9cbc8ef35a01e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a number from a uniform distribution between a and b.  <a href="classopenrand_1_1BaseRNG.html#a85aa5ab259c425cd0ab9cbc8ef35a01e">More...</a><br /></td></tr>
+<tr class="separator:a85aa5ab259c425cd0ab9cbc8ef35a01e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e71225e3fdf05526ecb43e647b50656"><td class="memTemplParams" colspan="2"><a id="a9e71225e3fdf05526ecb43e647b50656"></a>
 template&lt;typename T  = float&gt; </td></tr>
 <tr class="memitem:a9e71225e3fdf05526ecb43e647b50656"><td class="memTemplItemLeft" align="right" valign="top">DEVICE void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fill_random</b> (T *array, const int N)</td></tr>
 <tr class="separator:a9e71225e3fdf05526ecb43e647b50656"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8adc235bf95fc48c01210e61f4161c4c"><td class="memTemplParams" colspan="2"><a id="a8adc235bf95fc48c01210e61f4161c4c"></a>
-template&lt;typename Ftype , typename Utype &gt; </td></tr>
-<tr class="memitem:a8adc235bf95fc48c01210e61f4161c4c"><td class="memTemplItemLeft" align="right" valign="top">DEVICE Ftype&#160;</td><td class="memTemplItemRight" valign="bottom"><b>uniform</b> (const Utype in) const</td></tr>
-<tr class="separator:a8adc235bf95fc48c01210e61f4161c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7369a6a316cb7b83efe2d5de5363ec8d"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
 <tr class="memitem:a7369a6a316cb7b83efe2d5de5363ec8d"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a7369a6a316cb7b83efe2d5de5363ec8d">randn</a> ()</td></tr>
 <tr class="memdesc:a7369a6a316cb7b83efe2d5de5363ec8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a normal distribution with mean 0 and std 1.  <a href="classopenrand_1_1BaseRNG.html#a7369a6a316cb7b83efe2d5de5363ec8d">More...</a><br /></td></tr>
@@ -130,6 +131,13 @@ static constexpr result_type&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memitem:a8cf14ef085c1c9b435e447ba4478ca86"><td class="memItemLeft" align="right" valign="top"><a id="a8cf14ef085c1c9b435e447ba4478ca86"></a>
 static constexpr result_type&#160;</td><td class="memItemRight" valign="bottom"><b>max</b> ()</td></tr>
 <tr class="separator:a8cf14ef085c1c9b435e447ba4478ca86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a2f57ce988ce9c056affd1ed35ed48682"><td class="memTemplParams" colspan="2"><a id="a2f57ce988ce9c056affd1ed35ed48682"></a>
+template&lt;typename Ftype , typename Utype &gt; </td></tr>
+<tr class="memitem:a2f57ce988ce9c056affd1ed35ed48682"><td class="memTemplItemLeft" align="right" valign="top">DEVICE Ftype&#160;</td><td class="memTemplItemRight" valign="bottom"><b>u01</b> (const Utype in) const</td></tr>
+<tr class="separator:a2f57ce988ce9c056affd1ed35ed48682"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename RNG&gt;<br />
@@ -401,6 +409,63 @@ template&lt;typename T  = float&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>T random number from a normal distribution with mean 0 and std 1 </dd></dl>
+
+</div>
+</div>
+<a id="a85aa5ab259c425cd0ab9cbc8ef35a01e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85aa5ab259c425cd0ab9cbc8ef35a01e">&#9670;&nbsp;</a></span>uniform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG &gt; </div>
+<div class="memtemplate">
+template&lt;typename T  = float&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DEVICE T <a class="el" href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a>&lt; RNG &gt;::uniform </td>
+          <td>(</td>
+          <td class="paramtype">const T&#160;</td>
+          <td class="paramname"><em>low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T&#160;</td>
+          <td class="paramname"><em>high</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generates a number from a uniform distribution between a and b. </p>
+<p>@Note For integer type, this method is slightly biased towards lower numbers.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Data type to be returned. Can be float or double. double. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">low</td><td>lower bound of the uniform distribution </td></tr>
+    <tr><td class="paramname">high</td><td>upper bound of the uniform distribution </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>T random number from a uniform distribution between a and b </dd></dl>
 
 </div>
 </div>

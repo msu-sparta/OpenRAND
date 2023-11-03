@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['vec2_19',['vec2',['../structopenrand_1_1vec2.html',1,'openrand']]],
-  ['vec3_20',['vec3',['../structopenrand_1_1vec3.html',1,'openrand']]],
-  ['vec4_21',['vec4',['../structopenrand_1_1vec4.html',1,'openrand']]]
+  ['uniform_19',['uniform',['../classopenrand_1_1BaseRNG.html#a85aa5ab259c425cd0ab9cbc8ef35a01e',1,'openrand::BaseRNG']]]
 ];
