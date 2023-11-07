@@ -100,7 +100,7 @@ $(function() {
 <div class="fragment"><div class="line">RNG rng(12345, 1);</div>
 <div class="line">std::normal_distribution&lt;double&gt; dist(0.0, 1.0);</div>
 <div class="line">double x = dist(rng);</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
 Parallel Streams</h1>
 <p>In a parellel program, it's a good idea to let all your threads have their local random streams. In an OpenMP program you can -</p>
 <div class="fragment"><div class="line">#pragma omp parallel</div>
@@ -116,7 +116,7 @@ Parallel Streams</h1>
 <div class="line">}</div>
 </div><!-- fragment --><p> Make sure the seeds are unique, OpenRAND will ensure these streams will not have any correlation between them. This is an important property of OpenRAND that sets it apart from many libraries out there.</p>
 <p>Another thing to remember is that these generator objects are very cheap to create, destroy and have a very small memory footprint. So don't worry about creating a new generator object for each thread even if you've got a million threads. Which brings us to-</p>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 GPU</h1>
 <p>It's time to introduce the <code>counter</code> argument.</p>
 <p>You can think of a single <code>seed</code> capable of producing a unique stream of length 2^64. This stream is divided into 2^32 <em>substreams</em>, each of length 2^32. The <code>counter</code> argument is used to select a substream.</p>

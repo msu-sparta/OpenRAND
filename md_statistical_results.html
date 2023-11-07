@@ -79,11 +79,11 @@ $(function() {
 </li>
 </ul>
 <p>In this document, our primary focus is on parallel streams, as single streams are already well-examined in existing literature. For the results discussed here, we've set N at 100 and C at 3.</p>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Practrand</h1>
 <p>Practrand can consume practically infinite amount of data. Given that each stream contains 2^32 numbers, and each number is 4 bytes (2^2), with 100 streams (or 2^6.64), the combined buffer is little over 2^40 bytes long. Put another way, we shouldn't expect to see any failures in Practrand before reaching the 2^40 bytes (1-terabyte) mark.</p>
 <p>None of the generators failed this test. For detailed output from the practrand suite for for each generator, see: <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">practrandm_[tyche|squares|threefry|phillox].txt</a>.</p>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 TestU01</h1>
 <p>Testu01 has 3 batteries of tests: SmallCrush, Crush, and BigCrush. BigCrush is the most comprehensive one with a total of 106 tests, and is the one we use.</p>
 <p>Some generators do fail one or two BigCRush tests. For example, this is the output from Philox: </p><div class="fragment"><div class="line">========= Summary results of BigCrush =========</div>
