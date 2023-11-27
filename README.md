@@ -29,6 +29,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(crng)
 ```
+If you're building OpenRAND and want to build the TestU01 statistical test suite, set CMake variable `TESTU01_PATH` to locally installed TestU01 library location. For practrand, pipe the output of `pract_rand*` executables (built bu default) to Practrand's `RNG_test` executable.
 
 
 ## Usage
