@@ -1,5 +1,5 @@
 # TODO: Lower the min version required
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.18)
 
 # Project's name
 project(OpenRAND)
