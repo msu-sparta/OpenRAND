@@ -87,27 +87,51 @@ class BaseRNG {
       if constexpr (std::is_integral_v<T>)
         return static_cast<T>(x);
       else
-        return uniform<float, uint32_t>(x);
+        return u01<float, uint32_t>(x);
     } else {
       const uint64_t x = gen().template draw<uint64_t>();
       if constexpr (std::is_integral_v<T>)
         return static_cast<T>(x);
       else
-        return uniform<double, uint64_t>(x);
+        return u01<double, uint64_t>(x);
     }
   }
 
+  /**
+   * @brief Generates a number from a uniform distribution between a and b.
+   *
+   * @Note For integer type, this method is slightly biased towards lower numbers.
+   *
+   * @tparam T Data type to be returned. Can be float or double.
+   * double.
+   * @param low lower bound of the uniform distribution
+   * @param high upper bound of the uniform distribution
+   * @return T random number from a uniform distribution between a and b
+   */
+  template <typename T = float>
+  DEVICE T uniform(const T low, const T high) {
+    // TODO: Allow 64 bit integers
+    static_assert(!(std::is_integral_v<T> && sizeof(T) > sizeof(int32_t)),
+                  "64 bit int not yet supported");
+
+    T range = high - low;
+
+    if constexpr (std::is_floating_point_v<T>) {
+      return low + range * rand<T>();
+    } else if constexpr (std::is_integral_v<T>) {
+      // Thanks to (https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/)
+      return low + T(((uint64_t)rand<uint32_t>() * (uint64_t)range) >> 32);
+    }
+  }
+
+  /*
+   * @brief Fills an array with random numbers from a uniform distribution [0, 1)
+   *
+   * @Note This array is filled serially. `N` ideally should not be large.
+   */
   template <typename T = float>
   DEVICE void fill_random(T *array, const int N) {
     for (int i = 0; i < N; i++) array[i] = rand<T>();
-  }
-
-  template <typename Ftype, typename Utype>
-  inline DEVICE Ftype uniform(const Utype in) const {
-    constexpr Ftype factor =
-        Ftype(1.) / (Ftype(~static_cast<Utype>(0)) + Ftype(1.));
-    constexpr Ftype halffactor = Ftype(0.5) * factor;
-    return Utype(in) * factor + halffactor;
   }
 
   /**
@@ -199,6 +223,18 @@ class BaseRNG {
     }
   }
 
+ protected:
+  /*
+   * @brief Converts a random number integer to a floating point number between [0., 1.)
+   */
+  template <typename Ftype, typename Utype>
+  inline DEVICE Ftype u01(const Utype in) const {
+    constexpr Ftype factor =
+        Ftype(1.) / (Ftype(~static_cast<Utype>(0)) + Ftype(1.));
+    constexpr Ftype halffactor = Ftype(0.5) * factor;
+    return Utype(in) * factor + halffactor;
+  }
+
  private:
   /**
    * @brief Returns a reference to the random number generator.
@@ -206,6 +242,7 @@ class BaseRNG {
   DEVICE __inline__ RNG &gen() {
     return *static_cast<RNG *>(this);
   }
+
 };  // class BaseRNG
 
 }  // namespace openrand

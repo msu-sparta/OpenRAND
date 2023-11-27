@@ -78,8 +78,8 @@ class Phillox : public BaseRNG<Phillox> {
   openrand::float4 draw_float4() {
     generate();
     return openrand::float4{
-        uniform<float, uint32_t>(_out[0]), uniform<float, uint32_t>(_out[1]),
-        uniform<float, uint32_t>(_out[2]), uniform<float, uint32_t>(_out[3])};
+        u01<float, uint32_t>(_out[0]), u01<float, uint32_t>(_out[1]),
+        u01<float, uint32_t>(_out[2]), u01<float, uint32_t>(_out[3])};
   }
 
  private:
