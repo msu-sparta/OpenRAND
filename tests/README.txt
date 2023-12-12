@@ -1,7 +1,3 @@
-## Examples
-
-
-
 ## Statictical Tests
 
 + `testu01.cpp`
@@ -18,4 +14,4 @@ the executable `examples/pract_rand` to the `RNG_test` executable in the library
 ```./examples/pract_rand | ./RNG_test stdin32```
 
 Note: the most stringent versions of these tests can take upto days to complete. Defaults chosen
-here should complete within an hour or less. 
+here should complete within an hour or less.
