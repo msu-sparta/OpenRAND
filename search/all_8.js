@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['threefry_17',['Threefry',['../classopenrand_1_1Threefry.html',1,'openrand']]],
-  ['tyche_18',['Tyche',['../classopenrand_1_1Tyche.html',1,'openrand']]]
+  ['uniform_18',['uniform',['../classopenrand_1_1BaseRNG.html#a85aa5ab259c425cd0ab9cbc8ef35a01e',1,'openrand::BaseRNG']]]
 ];

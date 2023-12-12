@@ -86,9 +86,9 @@ Inheritance diagram for openrand::Squares:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:add0951c4087baa608d7a40f7e43ac6d3"><td class="memItemLeft" align="right" valign="top"><a id="add0951c4087baa608d7a40f7e43ac6d3"></a>
-DEVICE&#160;</td><td class="memItemRight" valign="bottom"><b>Squares</b> (uint64_t seed, uint32_t _ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</td></tr>
-<tr class="separator:add0951c4087baa608d7a40f7e43ac6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6690157af06f557ec0852b51566e94be"><td class="memItemLeft" align="right" valign="top">DEVICE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">Squares</a> (uint32_t seed, uint32_t _ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</td></tr>
+<tr class="memdesc:a6690157af06f557ec0852b51566e94be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classopenrand_1_1Squares.html">Squares</a> generator.  <a href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">More...</a><br /></td></tr>
+<tr class="separator:a6690157af06f557ec0852b51566e94be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1f141621e006298090d6682b1c5c797"><td class="memTemplParams" colspan="2"><a id="ac1f141621e006298090d6682b1c5c797"></a>
 template&lt;typename T  = uint32_t&gt; </td></tr>
 <tr class="memitem:ac1f141621e006298090d6682b1c5c797"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>draw</b> ()</td></tr>
@@ -137,6 +137,60 @@ static constexpr result_type&#160;</td><td class="memItemRight" valign="bottom">
 DEVICE Ftype&#160;</td><td class="memItemRight" valign="bottom"><b>u01</b> (const Utype in) const</td></tr>
 <tr class="separator:a2f57ce988ce9c056affd1ed35ed48682 inherit pro_methods_classopenrand_1_1BaseRNG"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6690157af06f557ec0852b51566e94be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6690157af06f557ec0852b51566e94be">&#9670;&nbsp;</a></span>Squares()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DEVICE openrand::Squares::Squares </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>_ctr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>global_seed</em> = <code>openrand::DEFAULT_GLOBAL_SEED</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a new <a class="el" href="classopenrand_1_1Squares.html">Squares</a> generator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>The seed for the generator. </td></tr>
+    <tr><td class="paramname">_ctr</td><td>The counter for the generator. </td></tr>
+    <tr><td class="paramname">global_seed</td><td>Optional. The global seed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Unlike other generators, <a class="el" href="classopenrand_1_1Squares.html">Squares</a> supports 32-bit seed for now. This is due to the hashing function that ensures the seed bits has certain properties as outlined by the author in <a href="https://arxiv.org/abs/2004.06278">https://arxiv.org/abs/2004.06278</a>. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/OpenRAND/OpenRAND/include/openrand/<a class="el" href="squares_8h_source.html">squares.h</a></li>
 </ul>

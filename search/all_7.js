@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['squares_15',['Squares',['../classopenrand_1_1Squares.html',1,'openrand']]],
-  ['statistical_20quality_20test_20results_16',['Statistical Quality Test Results',['../md_statistical_results.html',1,'']]]
+  ['threefry_16',['Threefry',['../classopenrand_1_1Threefry.html',1,'openrand']]],
+  ['tyche_17',['Tyche',['../classopenrand_1_1Tyche.html',1,'openrand']]]
 ];

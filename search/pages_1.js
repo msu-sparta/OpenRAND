@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['examples_43',['Examples',['../md__home_runner_work_OpenRAND_OpenRAND_examples_README.html',1,'']]]
+  ['openrand_3a_20reproducible_20random_20number_20for_20parallel_20computations_43',['OpenRAND: Reproducible Random Number For Parallel Computations',['../index.html',1,'']]]
 ];

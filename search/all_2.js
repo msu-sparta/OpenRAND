@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['examples_6',['Examples',['../md__home_runner_work_OpenRAND_OpenRAND_examples_README.html',1,'']]]
+  ['gamma_6',['gamma',['../classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058',1,'openrand::BaseRNG']]]
 ];

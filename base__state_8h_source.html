@@ -171,7 +171,7 @@ $(function() {
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = <span class="keywordtype">float</span>&gt;</div>
 <div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="classopenrand_1_1BaseRNG.html#a7369a6a316cb7b83efe2d5de5363ec8d">  149</a></span>&#160;  DEVICE T <a class="code" href="classopenrand_1_1BaseRNG.html#a7369a6a316cb7b83efe2d5de5363ec8d">randn</a>() {</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    static_assert(std::is_floating_point_v&lt;T&gt;);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    constexpr T M_PI2 = 2 * M_PI;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    constexpr T M_PI2 = 2 * <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(M_PI);</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    T u = rand&lt;T&gt;();</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    T v = rand&lt;T&gt;();</div>
@@ -184,7 +184,7 @@ $(function() {
 <div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="classopenrand_1_1BaseRNG.html#a79912c7ec8db0dc6892c0078ba4f81f3">  167</a></span>&#160;  DEVICE <a class="code" href="structopenrand_1_1vec2.html">vec2&lt;T&gt;</a> <a class="code" href="classopenrand_1_1BaseRNG.html#a79912c7ec8db0dc6892c0078ba4f81f3">randn2</a>() {</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment">// Implements box-muller method</span></div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    static_assert(std::is_floating_point_v&lt;T&gt;);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    constexpr T M_PI2 = 2 * M_PI;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    constexpr T M_PI2 = 2 * <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(M_PI);</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    T u = rand&lt;T&gt;();</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    T v = rand&lt;T&gt;();</div>
@@ -227,7 +227,7 @@ $(function() {
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    constexpr Ftype factor =</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        Ftype(1.) / (Ftype(~<span class="keyword">static_cast&lt;</span>Utype<span class="keyword">&gt;</span>(0)) + Ftype(1.));</div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    constexpr Ftype halffactor = Ftype(0.5) * factor;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordflow">return</span> Utype(in) * factor + halffactor;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>Ftype<span class="keyword">&gt;</span>(in) * factor + halffactor;</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  }</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; <span class="keyword">private</span>:</div>

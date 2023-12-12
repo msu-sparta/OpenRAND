@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uniform_41',['uniform',['../classopenrand_1_1BaseRNG.html#a85aa5ab259c425cd0ab9cbc8ef35a01e',1,'openrand::BaseRNG']]]
+  ['squares_40',['Squares',['../classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be',1,'openrand::Squares']]]
 ];
