@@ -27,15 +27,14 @@
 // @HEADER
 
 #include <omp.h>
+#include <openrand/phillox.h>
+#include <openrand/tyche.h>
 
 #include <atomic>
 #include <cstdint>
 #include <iostream>
 #include <random>
 #include <vector>
-
-#include <openrand/phillox.h>
-#include <openrand/tyche.h>
 
 double compute_pi() {
   using RNG = openrand::Phillox;
@@ -55,7 +54,7 @@ double compute_pi() {
       float x = gen.rand();
       float y = gen.rand();
 
-      if (x * x + y * y <= 1.0) hits++;
+      if (x * x + y * y <= 1.0f) hits++;
     }
 
 #pragma omp atomic
@@ -72,7 +71,8 @@ int main() {
   constexpr double pi = 3.14159265358979323846;
 
   std::cout << "pi_estimate: " << pi_estimate << std::endl;
-  std::cout << "log10(|pi - pi_estimate|): " << std::log10(std::abs(pi - pi_estimate)) << std::endl;
+  std::cout << "log10(|pi - pi_estimate|): "
+            << std::log10(std::abs(pi - pi_estimate)) << std::endl;
 
   return 0;
 }

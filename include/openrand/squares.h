@@ -48,7 +48,7 @@ To avoid the pitfall of weak user supplied seed, we need to hash that seed.
 //     return _tzcnt_u64(_pdep_u64(1U << n, x));
 // }
 
-DEVICE unsigned int get_digit(unsigned int i, char *mask) {
+DEVICE unsigned int get_digit(uint64_t i, char *mask) {
   unsigned int j = 0;
   while (1) {
     while (mask[j] == 0) j++;
@@ -58,13 +58,14 @@ DEVICE unsigned int get_digit(unsigned int i, char *mask) {
   }
 }
 
-DEVICE uint64_t hash_seed(int i) {
+DEVICE uint64_t hash_seed(uint32_t seed) {
   constexpr uint64_t factorials[16] = {
       1,         1,          2,           6,
       24,        120,        720,         5040,
       40320,     362880,     3628800,     39916800,
       479001600, 6227020800, 87178291200, 1307674368000};
   uint64_t base = (1ULL << 60);
+  uint64_t i = static_cast<uint64_t>(seed);
 
   // NOTE: For CPUs with Bit Manipulation Instruction Set 2 support, we should
   // use the commented out uint16_t mask and nthset function.
@@ -75,8 +76,8 @@ DEVICE uint64_t hash_seed(int i) {
   uint64_t res = 0;
   int n = 15;
   while (n) {
-    const unsigned int v = factorials[n];
-    const unsigned int d = get_digit(i / v, mask);
+    uint64_t v = factorials[n];
+    unsigned int d = get_digit(i / v, mask);
     // const unsigned int d = nthset(mask, i / v);
     mask[d] = 0;
     // mask = mask & ~(1<<d);
@@ -97,7 +98,18 @@ namespace openrand {
 
 class Squares : public BaseRNG<Squares> {
  public:
-  DEVICE Squares(uint64_t seed, uint32_t _ctr,
+  /**
+   * @brief Construct a new Squares generator.
+   *
+   * @param seed The seed for the generator.
+   * @param _ctr The counter for the generator.
+   * @param global_seed Optional. The global seed.
+   *
+   * @note Unlike other generators, Squares supports 32-bit seed for now. This is due to the
+   * hashing function that ensures the seed bits has certain properties as outlined by the
+   * author in https://arxiv.org/abs/2004.06278.
+   */
+  DEVICE Squares(uint32_t seed, uint32_t _ctr,
                  uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
       : seed(hash_seed(seed) ^ global_seed),
         ctr(static_cast<uint64_t>(_ctr) << 32) {
@@ -118,7 +130,7 @@ class Squares : public BaseRNG<Squares> {
       x = round(x, y);
       x = round(x, z);
       x = round(x, y);
-      return (x * x + z) >> 32;
+      return static_cast<uint32_t>((x * x + z) >> 32);
     } else {
       x = round(x, y);
       x = round(x, z);

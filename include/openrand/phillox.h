@@ -63,11 +63,15 @@ class Phillox : public BaseRNG<Phillox> {
     generate();
 
     static_assert(std::is_same_v<T, uint32_t> || std::is_same_v<T, uint64_t>);
-    if constexpr (std::is_same_v<T, uint32_t>) return _out[0];
+    if constexpr (std::is_same_v<T, uint32_t>)
+      return _out[0];
 
-    uint64_t res =
-        (static_cast<uint64_t>(_out[0]) << 32) | static_cast<uint64_t>(_out[1]);
-    return static_cast<uint64_t>(res);
+    // Not wrapping this block in else{} would lead to compiler warning
+    else {
+      uint64_t res = (static_cast<uint64_t>(_out[0]) << 32) |
+                     static_cast<uint64_t>(_out[1]);
+      return static_cast<uint64_t>(res);
+    }
   }
 
   openrand::uint4 draw_int4() {
@@ -109,7 +113,7 @@ class Phillox : public BaseRNG<Phillox> {
 
   inline DEVICE uint32_t mulhilo(uint32_t L, uint32_t R, uint32_t *hip) {
     uint64_t product = static_cast<uint64_t>(L) * static_cast<uint64_t>(R);
-    *hip = product >> 32;
+    *hip = static_cast<uint32_t>(product >> 32);
     return static_cast<uint32_t>(product);
   }
 

@@ -45,13 +45,13 @@ double standard_normal_cdf(double x) {
 }
 
 std::pair<double, bool> ks_test(const std::vector<double>& data) {
-  int n = data.size();
+  auto n = data.size();
   std::vector<double> data_sorted(data);
   std::sort(data_sorted.begin(), data_sorted.end());
 
   double max_diff = 0.0;
 
-  for (int i = 0; i < n; ++i) {
+  for (unsigned int i = 0; i < n; ++i) {
     double cdf_data = static_cast<double>(i + 1) / static_cast<double>(n);
     double cdf_theoretical = standard_normal_cdf(data_sorted[i]);
     max_diff = std::max(max_diff, std::abs(cdf_data - cdf_theoretical));

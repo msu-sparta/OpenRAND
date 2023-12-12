@@ -33,9 +33,9 @@
 
 #include <curand_kernel.h>
 #include <openrand/phillox.h>
-#include <openrand/tyche.h>
-#include <openrand/threefry.h>
 #include <openrand/squares.h>
+#include <openrand/threefry.h>
+#include <openrand/tyche.h>
 
 #include <cmath>
 #include <iostream>
@@ -84,7 +84,8 @@ int main() {
 
   constexpr double pi = 3.14159265358979323846;
   std::cout << "pi_estimate: " << pi_estimate << std::endl;
-  std::cout << "log10(|pi - pi_estimate|): " << std::log10(std::abs(pi - pi_estimate)) << std::endl;
+  std::cout << "log10(|pi - pi_estimate|): "
+            << std::log10(std::abs(pi - pi_estimate)) << std::endl;
 
   cudaFree(d_sum);
 
