@@ -74,11 +74,11 @@ TEST(RNG, basic) {
 }
 
 template <typename RNG>
-void test_range(){
-  RNG rng (1234567, 1234567);
+void test_range() {
+  RNG rng(1234567, 1234567);
 
   double mean = 0;
-  for(int i = 0; i < 1000; i++){
+  for (int i = 0; i < 1000; i++) {
     auto x = rng.uniform(10.0, 20.0);
     mean += x;
     EXPECT_TRUE((x >= 10.0) && (x <= 20.0));
@@ -86,7 +86,7 @@ void test_range(){
   EXPECT_NEAR(mean / 1000.0, 15.0, 0.36);  // 99.99 % confidence
 
   mean = 0;
-  for(int i = 0; i < 1000; i++){
+  for (int i = 0; i < 1000; i++) {
     auto x = rng.uniform(-20.0, -10.0);
     mean += x;
     EXPECT_TRUE((x >= -20.0) && (x <= -10.0));
@@ -95,15 +95,15 @@ void test_range(){
 
   // For integer type, this method is slightly biased towards lower numbers.
   mean = 0;
-  for(int i = 0; i < 1000; i++){
-    auto x = rng.template uniform<int>(10,20);
-    mean += (float)x;
+  for (int i = 0; i < 1000; i++) {
+    auto x = rng.template uniform<int>(10, 20);
+    mean += (double)x;
     EXPECT_TRUE((x >= 10) && (x <= 20));
   }
   EXPECT_NEAR(mean / 1000.0, 15.0, 1.0);
 }
 
-TEST(RNG, range){
+TEST(RNG, range) {
   test_range<openrand::Phillox>();
   test_range<openrand::Tyche>();
   test_range<openrand::Threefry>();
@@ -120,7 +120,7 @@ void test_mean() {
   for (int i = 0; i < num_draws; i++) {
     mean += rdist(rng);
   }
-  mean /= num_draws;
+  mean /= static_cast<float>(num_draws);
   EXPECT_NEAR(mean, 0.5, 0.0103);  // 99.99 % confidence
 }
 

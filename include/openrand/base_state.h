@@ -148,7 +148,7 @@ class BaseRNG {
   template <typename T = float>
   DEVICE T randn() {
     static_assert(std::is_floating_point_v<T>);
-    constexpr T M_PI2 = 2 * M_PI;
+    constexpr T M_PI2 = 2 * static_cast<T>(M_PI);
 
     T u = rand<T>();
     T v = rand<T>();
@@ -167,7 +167,7 @@ class BaseRNG {
   DEVICE vec2<T> randn2() {
     // Implements box-muller method
     static_assert(std::is_floating_point_v<T>);
-    constexpr T M_PI2 = 2 * M_PI;
+    constexpr T M_PI2 = 2 * static_cast<T>(M_PI);
 
     T u = rand<T>();
     T v = rand<T>();
@@ -232,7 +232,7 @@ class BaseRNG {
     constexpr Ftype factor =
         Ftype(1.) / (Ftype(~static_cast<Utype>(0)) + Ftype(1.));
     constexpr Ftype halffactor = Ftype(0.5) * factor;
-    return Utype(in) * factor + halffactor;
+    return static_cast<Ftype>(in) * factor + halffactor;
   }
 
  private:

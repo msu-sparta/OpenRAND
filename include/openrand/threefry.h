@@ -51,11 +51,14 @@ class Threefry : public BaseRNG<Threefry> {
           counter, _ctr++, out);
 
     static_assert(std::is_same_v<T, uint32_t> || std::is_same_v<T, uint64_t>);
-    if constexpr (std::is_same_v<T, uint32_t>) return out[0];
+    if constexpr (std::is_same_v<T, uint32_t>)
+      return out[0];
 
-    uint64_t res =
-        (static_cast<uint64_t>(out[0]) << 32) | static_cast<uint64_t>(out[1]);
-    return static_cast<uint64_t>(res);
+    else {
+      uint64_t res =
+          (static_cast<uint64_t>(out[0]) << 32) | static_cast<uint64_t>(out[1]);
+      return static_cast<uint64_t>(res);
+    }
   }
 
  private:

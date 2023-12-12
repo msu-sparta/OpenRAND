@@ -7,7 +7,9 @@ project(OpenRAND)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O3 -fopenmp")
+#- Wdouble-promotion : implicit float->double promotion is a really bad idea for GPU
+set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wdouble-promotion -Wconversion -O3 -fopenmp")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
