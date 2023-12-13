@@ -26,7 +26,7 @@
 //********************************************************************************
 // @HEADER
 
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
   std::cout << "Generating stream for: " << arg << std::endl;
 
   if (arg == "philox") {
-    generate_stream<openrand::Phillox>();
+    generate_stream<openrand::Philox>();
   } else if (arg == "tyche") {
     generate_stream<openrand::Tyche>();
   } else if (arg == "threefry") {

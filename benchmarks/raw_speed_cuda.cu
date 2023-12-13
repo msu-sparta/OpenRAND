@@ -33,7 +33,7 @@
 #include <cuda.h>
 
 
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/threefry.h>
 #include <openrand/squares.h>
 #include <openrand/tyche.h>
@@ -117,8 +117,8 @@ int main(){
     std::cout << "Number of Streaming Multiprocessors (SMs): " << deviceProp.multiProcessorCount << std::endl;
 
 
-    std::cout << "====Phillox====" << std::endl;
-    measure_speed_cuda<openrand::Phillox>(deviceProp.multiProcessorCount);
+    std::cout << "====Philox====" << std::endl;
+    measure_speed_cuda<openrand::Philox>(deviceProp.multiProcessorCount);
 
     std::cout << "====Threefry====" << std::endl;
     measure_speed_cuda<openrand::Threefry>(deviceProp.multiProcessorCount);

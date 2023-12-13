@@ -27,7 +27,7 @@
 // @HEADER
 
 #include <omp.h>
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/tyche.h>
 
 #include <atomic>
@@ -37,7 +37,7 @@
 #include <vector>
 
 double compute_pi() {
-  using RNG = openrand::Phillox;
+  using RNG = openrand::Philox;
   const int nsamples = 10000000;
   int total_samples;
   int total_hits = 0;

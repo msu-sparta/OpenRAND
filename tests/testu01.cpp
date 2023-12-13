@@ -36,14 +36,14 @@ extern "C" {
 #include "TestU01.h"
 }
 
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/tyche.h>
 
 // based on: https://www.pcg-random.org/posts/how-to-test-with-testu01.html
 
-const char* gen_name = "Phillox";
-using RNG = openrand::Phillox;
+const char* gen_name = "Philox";
+using RNG = openrand::Philox;
 
 uint32_t gen32() {
   static RNG rng(42, 0);

@@ -28,7 +28,7 @@
 // This compares the raw speed of all the generators on both CPU and GPU.
 
 #include <benchmark/benchmark.h>
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
@@ -56,7 +56,7 @@ static void bench_cpp(benchmark::State& state) {
 #define TUnit benchmark::kNanosecond
 
 // Register the function as a benchmark
-BENCHMARK(bench_rng<openrand::Phillox>)
+BENCHMARK(bench_rng<openrand::Philox>)
     ->Unit(TUnit)
     ->Arg(10)
     ->Arg(100)
