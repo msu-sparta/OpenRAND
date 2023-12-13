@@ -76,7 +76,8 @@ class Phillox : public BaseRNG<Phillox> {
     generate();
 
     static_assert(std::is_same_v<T, uint32_t> || std::is_same_v<T, uint64_t>);
-    if constexpr (std::is_same_v<T, uint32_t>) return _out[0];
+    if constexpr (std::is_same_v<T, uint32_t>)
+      return _out[0];
 
     // Not wrapping this block in else{} would lead to compiler warning
     else {
