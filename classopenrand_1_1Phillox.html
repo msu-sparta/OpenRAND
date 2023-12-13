@@ -91,9 +91,9 @@ Inheritance diagram for openrand::Phillox:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa877aeef6400110994c4c982552aff0e"><td class="memItemLeft" align="right" valign="top"><a id="aa877aeef6400110994c4c982552aff0e"></a>
-DEVICE&#160;</td><td class="memItemRight" valign="bottom"><b>Phillox</b> (uint64_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</td></tr>
-<tr class="separator:aa877aeef6400110994c4c982552aff0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a727ee2278a9c4a0fbbe6d530e8bc4cd6"><td class="memItemLeft" align="right" valign="top">DEVICE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1Phillox.html#a727ee2278a9c4a0fbbe6d530e8bc4cd6">Phillox</a> (uint64_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED, uint32_t ctr1=0x12345)</td></tr>
+<tr class="memdesc:a727ee2278a9c4a0fbbe6d530e8bc4cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classopenrand_1_1Phillox.html" title="Phillox generator.">Phillox</a> object.  <a href="classopenrand_1_1Phillox.html#a727ee2278a9c4a0fbbe6d530e8bc4cd6">More...</a><br /></td></tr>
+<tr class="separator:a727ee2278a9c4a0fbbe6d530e8bc4cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11db48b3179c980b6617ced41445cfa1"><td class="memTemplParams" colspan="2"><a id="a11db48b3179c980b6617ced41445cfa1"></a>
 template&lt;typename T  = uint32_t&gt; </td></tr>
 <tr class="memitem:a11db48b3179c980b6617ced41445cfa1"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>draw</b> ()</td></tr>
@@ -151,7 +151,68 @@ DEVICE Ftype&#160;</td><td class="memItemRight" valign="bottom"><b>u01</b> (cons
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classopenrand_1_1Phillox.html" title="Phillox generator.">Phillox</a> generator. </p>
 <dl class="section note"><dt>Note</dt><dd>This is a modified version of <a class="el" href="classopenrand_1_1Phillox.html" title="Phillox generator.">Phillox</a> generator from Random123 library. This uses 4x 32-bit counter, 2x 32-bit key along with 10 rounds. </dd></dl>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a727ee2278a9c4a0fbbe6d530e8bc4cd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a727ee2278a9c4a0fbbe6d530e8bc4cd6">&#9670;&nbsp;</a></span>Phillox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DEVICE openrand::Phillox::Phillox </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ctr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>global_seed</em> = <code>openrand::DEFAULT_GLOBAL_SEED</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ctr1</em> = <code>0x12345</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a new <a class="el" href="classopenrand_1_1Phillox.html" title="Phillox generator.">Phillox</a> object. </p>
+<dl class="section note"><dt>Note</dt><dd>Internally, global_seed is treated in the same way as other counters, and can be treated as such depending on the application needs.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seed</td><td>64-bit seed </td></tr>
+    <tr><td class="paramname">ctr</td><td>32-bit counter </td></tr>
+    <tr><td class="paramname">global_seed</td><td>(Optional) 32-bit global seed. </td></tr>
+    <tr><td class="paramname">ctr1</td><td>(Optional) Another 32-bit counter exposed for advanced use. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/OpenRAND/OpenRAND/include/openrand/<a class="el" href="phillox_8h_source.html">phillox.h</a></li>
 </ul>
 </div><!-- contents -->
