@@ -67,11 +67,11 @@ $(function() {
 <div class="title">A Quick Introduction to OpenRAND </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>OpenRAND comes with four generator classes: <code>Phillox</code>, <code>Tyche</code>, <code>Threefry</code> and <code>Squares</code>. They all have a similar interface: given a <code>seed</code> and <code>counter</code>, the generator can produce a stream of random numbers (upto 2^32 numbers per object). <code>seed</code> should be self-explanatory, we'll introduce <code>counter</code> later.</p>
-<div class="fragment"><div class="line">#include &lt;phillox.h&gt;</div>
+<div class="textblock"><p>OpenRAND comes with four generator classes: <code>Philox</code>, <code>Tyche</code>, <code>Threefry</code> and <code>Squares</code>. They all have a similar interface: given a <code>seed</code> and <code>counter</code>, the generator can produce a stream of random numbers (upto 2^32 numbers per object). <code>seed</code> should be self-explanatory, we'll introduce <code>counter</code> later.</p>
+<div class="fragment"><div class="line">#include &lt;Philox.h&gt;</div>
 <div class="line"> </div>
 <div class="line">int main() {</div>
-<div class="line">    using RNG = Phillox; // You can swap with Tyche, Threefry or Squares</div>
+<div class="line">    using RNG = Philox; // You can swap with Tyche, Threefry or Squares</div>
 <div class="line">    </div>
 <div class="line">    // Initialize RNG with seed and counter</div>
 <div class="line">    RNG rng(/*seed*/ 42, /*counter*/ 0);</div>

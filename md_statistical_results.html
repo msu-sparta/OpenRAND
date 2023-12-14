@@ -69,7 +69,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>OpenRAND generators has been tested with two statistical suites: TestU01 and PractRand.</p>
 <p>There are two ways to test the generators:</p><ul>
-<li>Single stream: we use PractRand to test a single random number stream to their theoratical limit of 2^32 numbers (2^34 bytes). See the files <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">practrand_[tyche|squares|threefry|phillox].txt</a> for details.</li>
+<li>Single stream: we use PractRand to test a single random number stream to their theoratical limit of 2^32 numbers (2^34 bytes). See the files <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">practrand_[tyche|squares|threefry|Philox].txt</a> for details.</li>
 <li>Parallel Streams: This tests for correlation among parallel streams. This is not quite straightforward in those statistical frameworks- as they are designed to work on a single stream. To stitch parallel streams to a single one, we use the following approach:<ul>
 <li>Start with a set of <code>N</code> random number generators.</li>
 <li>Generate <code>C</code> random numbers from each generator.</li>
@@ -82,7 +82,7 @@ $(function() {
 <h1><a class="anchor" id="autotoc_md12"></a>
 Practrand</h1>
 <p>Practrand can consume practically infinite amount of data. Given that each stream contains 2^32 numbers, and each number is 4 bytes (2^2), with 100 streams (or 2^6.64), the combined buffer is little over 2^40 bytes long. Put another way, we shouldn't expect to see any failures in Practrand before reaching the 2^40 bytes (1-terabyte) mark.</p>
-<p>None of the generators failed this test. For detailed output from the practrand suite for for each generator, see: <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">practrandm_[tyche|squares|threefry|phillox].txt</a>.</p>
+<p>None of the generators failed this test. For detailed output from the practrand suite for for each generator, see: <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">practrandm_[tyche|squares|threefry|Philox].txt</a>.</p>
 <h1><a class="anchor" id="autotoc_md13"></a>
 TestU01</h1>
 <p>Testu01 has 3 batteries of tests: SmallCrush, Crush, and BigCrush. BigCrush is the most comprehensive one with a total of 106 tests, and is the one we use.</p>
@@ -102,7 +102,7 @@ TestU01</h1>
 <div class="line"> ----------------------------------------------</div>
 <div class="line"> All other tests were passed</div>
 </div><!-- fragment --><p>This is not unusual on some runs, authors of curand also <a href="https://docs.nvidia.com/cuda/curand/testing.html">observed</a> some failures on Bigcrush. It also depends on the configuration we used.</p>
-<p>For detailed output from Bigcrush suite, see <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">testu01m_[tyche|squares|threefry|phillox].txt</a>. </p>
+<p>For detailed output from Bigcrush suite, see <a href="https://github.com/msu-sparta/OpenRAND/tree/gh-pages/results">testu01m_[tyche|squares|threefry|Philox].txt</a>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
