@@ -62,8 +62,8 @@ class Philox : public BaseRNG<Philox> {
    * @param ctr1 (Optional) Another 32-bit counter exposed for advanced use.
    */
   DEVICE Philox(uint64_t seed, uint32_t ctr,
-                 uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
-                 uint32_t ctr1 = 0x12345)
+                uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
+                uint32_t ctr1 = 0x12345)
       : seed_hi((uint32_t)(seed >> 32)),
         seed_lo((uint32_t)(seed & 0xFFFFFFFF)),
         ctr0(ctr),
@@ -76,8 +76,7 @@ class Philox : public BaseRNG<Philox> {
     generate();
 
     static_assert(std::is_same_v<T, uint32_t> || std::is_same_v<T, uint64_t>);
-    if constexpr (std::is_same_v<T, uint32_t>)
-      return _out[0];
+    if constexpr (std::is_same_v<T, uint32_t>) return _out[0];
 
     // Not wrapping this block in else{} would lead to compiler warning
     else {
