@@ -55,7 +55,7 @@ extern "C" {
 #include "TestU01.h"
 }
 
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
   if (arg == "philox") {
     gen = unif01_CreateExternGenBits(
         (char*)arg.c_str(),
-        reverseBits ? gen32<openrand::Phillox> : gen32_rev<openrand::Phillox>);
+        reverseBits ? gen32<openrand::Philox> : gen32_rev<openrand::Philox>);
   } else if (arg == "tyche") {
     gen = unif01_CreateExternGenBits(
         (char*)arg.c_str(),

@@ -27,7 +27,7 @@
 // @HEADER
 
 #include <gtest/gtest.h>
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
@@ -88,8 +88,8 @@ void test_normalcy() {
   ASSERT_TRUE(!reject_null);
 }
 
-TEST(normal, phillox) {
-  test_normalcy<openrand::Phillox>();
+TEST(normal, Philox) {
+  test_normalcy<openrand::Philox>();
 }
 
 TEST(normal, tyche) {

@@ -36,10 +36,10 @@ If you're building OpenRAND and want to build the TestU01 statistical test suite
 Here's a simple example of how to generate random numbers using OpenRAND:
 
 ```
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 
 int main() {
-    using RNG = openrand::Phillox;  // Or, for example, Tyche
+    using RNG = openrand::Philox;  // Or, for example, Tyche
     
     // Initialize RNG with seed and counter
     RNG rng(1, 0);

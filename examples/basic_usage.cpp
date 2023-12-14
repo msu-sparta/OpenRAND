@@ -25,7 +25,7 @@
 //********************************************************************************
 // @HEADER
 
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/tyche.h>
 
@@ -43,7 +43,7 @@ struct Particle {
 };  //  class Particle
 
 int main() {
-  using RNG = openrand::Phillox;  // Or, for example, Tyche
+  using RNG = openrand::Philox;  // Or, for example, Tyche
 
   RNG rng(1ULL, 0);
 
@@ -53,7 +53,7 @@ int main() {
   double c = rng.rand<double>();
   float f = rng.rand<float>();
 
-  if constexpr (std::is_same_v<RNG, typename openrand::Phillox>) {
+  if constexpr (std::is_same_v<RNG, typename openrand::Philox>) {
     // this function is not availabe for all generators.
     openrand::float4 f4 = rng.draw_float4();
 

@@ -26,7 +26,7 @@
 // @HEADER
 
 #include <gtest/gtest.h>
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
@@ -36,14 +36,14 @@
 // std::is_trivially_copyable and std::is_trivially_destructible tests
 // for all generator types
 TEST(RNG, trivially_copyable) {
-  EXPECT_TRUE(std::is_trivially_copyable<openrand::Phillox>::value);
+  EXPECT_TRUE(std::is_trivially_copyable<openrand::Philox>::value);
   EXPECT_TRUE(std::is_trivially_copyable<openrand::Tyche>::value);
   EXPECT_TRUE(std::is_trivially_copyable<openrand::Threefry>::value);
   EXPECT_TRUE(std::is_trivially_copyable<openrand::Squares>::value);
 }
 
 TEST(RNG, trivially_destructible) {
-  EXPECT_TRUE(std::is_trivially_destructible<openrand::Phillox>::value);
+  EXPECT_TRUE(std::is_trivially_destructible<openrand::Philox>::value);
   EXPECT_TRUE(std::is_trivially_destructible<openrand::Tyche>::value);
   EXPECT_TRUE(std::is_trivially_destructible<openrand::Threefry>::value);
   EXPECT_TRUE(std::is_trivially_destructible<openrand::Squares>::value);
@@ -67,7 +67,7 @@ void test_basic() {
 }
 
 TEST(RNG, basic) {
-  test_basic<openrand::Phillox>();
+  test_basic<openrand::Philox>();
   test_basic<openrand::Tyche>();
   test_basic<openrand::Threefry>();
   test_basic<openrand::Squares>();
@@ -104,7 +104,7 @@ void test_range() {
 }
 
 TEST(RNG, range) {
-  test_range<openrand::Phillox>();
+  test_range<openrand::Philox>();
   test_range<openrand::Tyche>();
   test_range<openrand::Threefry>();
   test_range<openrand::Squares>();
@@ -125,7 +125,7 @@ void test_mean() {
 }
 
 TEST(Uniform, mean) {
-  test_mean<openrand::Phillox>();
+  test_mean<openrand::Philox>();
   test_mean<openrand::Tyche>();
   test_mean<openrand::Threefry>();
   test_mean<openrand::Squares>();
@@ -155,7 +155,7 @@ void test_cpp_engine() {
 }
 
 TEST(CPP11, engine) {
-  test_cpp_engine<openrand::Phillox>();
+  test_cpp_engine<openrand::Philox>();
   test_cpp_engine<openrand::Tyche>();
   test_cpp_engine<openrand::Threefry>();
   test_cpp_engine<openrand::Squares>();

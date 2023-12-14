@@ -32,7 +32,7 @@
  */
 
 #include <curand_kernel.h>
-#include <openrand/phillox.h>
+#include <openrand/philox.h>
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
@@ -45,7 +45,7 @@ const int SAMPLES_PER_THREAD = 1000;          // Number of samples per thread
 const int NTHREADS = N / SAMPLES_PER_THREAD;  // Number of threads
 const int THREADS_PER_BLOCK = 256;            // Number of threads per block
 
-typedef openrand::Phillox RNG;
+typedef openrand::Philox RNG;
 
 __global__ void monteCarloPi(int *d_sum) {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;

@@ -1,12 +1,12 @@
 # A Quick Introduction to OpenRAND
 
-OpenRAND comes with four generator classes: `Phillox`, `Tyche`, `Threefry` and `Squares`. They all have a similar interface: given a `seed` and `counter`, the generator can produce a stream of random numbers (upto 2^32 numbers per object). `seed` should be self-explanatory, we'll introduce `counter` later.
+OpenRAND comes with four generator classes: `Philox`, `Tyche`, `Threefry` and `Squares`. They all have a similar interface: given a `seed` and `counter`, the generator can produce a stream of random numbers (upto 2^32 numbers per object). `seed` should be self-explanatory, we'll introduce `counter` later.
 
 ```
-#include <phillox.h>
+#include <Philox.h>
 
 int main() {
-    using RNG = Phillox; // You can swap with Tyche, Threefry or Squares
+    using RNG = Philox; // You can swap with Tyche, Threefry or Squares
     
     // Initialize RNG with seed and counter
     RNG rng(/*seed*/ 42, /*counter*/ 0);
