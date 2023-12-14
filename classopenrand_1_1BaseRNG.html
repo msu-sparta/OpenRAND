@@ -118,6 +118,10 @@ template&lt;typename T  = float&gt; </td></tr>
 <tr class="memitem:a17151250ebf7fdb2e4f0265c7ad580fe"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a17151250ebf7fdb2e4f0265c7ad580fe">randn</a> (const T mean, const T std_dev)</td></tr>
 <tr class="memdesc:a17151250ebf7fdb2e4f0265c7ad580fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a normal distribution with mean and std.  <a href="classopenrand_1_1BaseRNG.html#a17151250ebf7fdb2e4f0265c7ad580fe">More...</a><br /></td></tr>
 <tr class="separator:a17151250ebf7fdb2e4f0265c7ad580fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0541bc05e073e39849ce17ccc915ec04"><td class="memTemplParams" colspan="2">template&lt;bool biased = true, typename T  = int&gt; </td></tr>
+<tr class="memitem:a0541bc05e073e39849ce17ccc915ec04"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a0541bc05e073e39849ce17ccc915ec04">range</a> (const T N)</td></tr>
+<tr class="memdesc:a0541bc05e073e39849ce17ccc915ec04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random integer of certain range.  <a href="classopenrand_1_1BaseRNG.html#a0541bc05e073e39849ce17ccc915ec04">More...</a><br /></td></tr>
+<tr class="separator:a0541bc05e073e39849ce17ccc915ec04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a982e115c5a134e6b818caf05d0e29058"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
 <tr class="memitem:a982e115c5a134e6b818caf05d0e29058"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">gamma</a> (T alpha, T b)</td></tr>
 <tr class="memdesc:a982e115c5a134e6b818caf05d0e29058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a gamma distribution with shape alpha and scale b.  <a href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">More...</a><br /></td></tr>
@@ -412,6 +416,57 @@ template&lt;typename T  = float&gt; </div>
 
 </div>
 </div>
+<a id="a0541bc05e073e39849ce17ccc915ec04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0541bc05e073e39849ce17ccc915ec04">&#9670;&nbsp;</a></span>range()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG &gt; </div>
+<div class="memtemplate">
+template&lt;bool biased = true, typename T  = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DEVICE T <a class="el" href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a>&lt; RNG &gt;::range </td>
+          <td>(</td>
+          <td class="paramtype">const T&#160;</td>
+          <td class="paramname"><em>N</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generates a random integer of certain range. </p>
+<p>This uses the method described in [1] to generate a random integer of range [0..N)</p>
+<dl class="section attention"><dt>Attention</dt><dd>if using non-biased version, please make sure that N is not too large [2]</dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">biased</td><td>if true, the faster, but slightly biased variant is used. </td></tr>
+    <tr><td class="paramname">T</td><td>integer type (&lt;=32 bit) to be returned</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">N</td><td>A random integral of range [0..N) will be returned </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>T random number from a uniform distribution between 0 and N</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>[1] <a href="https://lemire.me/blog/2016/06/30/fast-random-shuffling/">https://lemire.me/blog/2016/06/30/fast-random-shuffling/</a> </dd>
+<dd>
+[2] If N=2^b (b&lt;32), pr(taking the branch) = p = 1/2^(32-b). For N=2^24, this value is 1/2^8 = .4%, quite negligible. But GPU complicates this simple math. Assuming a warp size of 32, the probability of a thread taking the branch becomes 1 - (1-p)^32. For N=2^24, that value is 11.8%. For N=2^20, it's 0.8%. </dd></dl>
+
+</div>
+</div>
 <a id="a85aa5ab259c425cd0ab9cbc8ef35a01e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85aa5ab259c425cd0ab9cbc8ef35a01e">&#9670;&nbsp;</a></span>uniform()</h2>
 
@@ -451,7 +506,7 @@ template&lt;typename T  = float&gt; </div>
 </div><div class="memdoc">
 
 <p>Generates a number from a uniform distribution between a and b. </p>
-<p>@Note For integer type, this method is slightly biased towards lower numbers.</p>
+<p>@Note For integer types, consider using <a class="el" href="classopenrand_1_1BaseRNG.html#a0541bc05e073e39849ce17ccc915ec04">range</a> for greater control.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>Data type to be returned. Can be float or double. double. </td></tr>
