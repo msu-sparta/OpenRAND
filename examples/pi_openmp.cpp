@@ -27,7 +27,11 @@
 // @HEADER
 
 #include <omp.h>
+<<<<<<< HEAD
 #include <openrand/philox.h>
+=======
+#include <openrand/phillox.h>
+>>>>>>> upstream/main
 #include <openrand/tyche.h>
 
 #include <atomic>

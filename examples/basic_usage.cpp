@@ -25,7 +25,11 @@
 //********************************************************************************
 // @HEADER
 
+<<<<<<< HEAD
 #include <openrand/philox.h>
+=======
+#include <openrand/phillox.h>
+>>>>>>> upstream/main
 #include <openrand/squares.h>
 #include <openrand/tyche.h>
 
@@ -53,7 +57,11 @@ int main() {
   double c = rng.rand<double>();
   float f = rng.rand<float>();
 
+<<<<<<< HEAD
   if constexpr (std::is_same_v<RNG, typename openrand::Philox>) {
+=======
+  if constexpr (std::is_same_v<RNG, typename openrand::Phillox>) {
+>>>>>>> upstream/main
     // this function is not availabe for all generators.
     openrand::float4 f4 = rng.draw_float4();
 

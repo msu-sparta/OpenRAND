@@ -32,7 +32,11 @@
  */
 
 #include <curand_kernel.h>
+<<<<<<< HEAD
 #include <openrand/philox.h>
+=======
+#include <openrand/phillox.h>
+>>>>>>> upstream/main
 #include <openrand/squares.h>
 #include <openrand/threefry.h>
 #include <openrand/tyche.h>
