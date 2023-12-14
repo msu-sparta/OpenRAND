@@ -21,9 +21,19 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+add_executable(
+  base
+  test_base.cpp
+)
+target_link_libraries(
+  base
+  GTest::gtest_main
+)
+
 include(GoogleTest)
 gtest_discover_tests(uniform)
 gtest_discover_tests(normal)
+gtest_discover_tests(base)
 
 
 # Statistical tests, not run through gtest framework

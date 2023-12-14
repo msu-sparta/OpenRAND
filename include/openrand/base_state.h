@@ -100,7 +100,7 @@ class BaseRNG {
   /**
    * @brief Generates a number from a uniform distribution between a and b.
    *
-   * @Note For integer type, this method is slightly biased towards lower numbers.
+   * @Note For integer types, consider using @ref range for greater control.
    *
    * @tparam T Data type to be returned. Can be float or double.
    * double.
@@ -114,13 +114,12 @@ class BaseRNG {
     static_assert(!(std::is_integral_v<T> && sizeof(T) > sizeof(int32_t)),
                   "64 bit int not yet supported");
 
-    T range = high - low;
+    T r = high - low;
 
     if constexpr (std::is_floating_point_v<T>) {
-      return low + range * rand<T>();
+      return low + r * rand<T>();
     } else if constexpr (std::is_integral_v<T>) {
-      // Thanks to (https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/)
-      return low + T(((uint64_t)rand<uint32_t>() * (uint64_t)range) >> 32);
+      return low + range<true, T>(r);
     }
   }
 
@@ -188,6 +187,53 @@ class BaseRNG {
   template <typename T = float>
   DEVICE T randn(const T mean, const T std_dev) {
     return mean + randn<T>() * std_dev;
+  }
+
+  /**
+   * @brief Generates a random integer of certain range
+   *
+   * This uses the method described in [1] to generate a random integer
+   * of range [0..N)
+   *
+   *
+   * @attention if using non-biased version, please make sure that N is not
+   * too large [2]
+   *
+   * @tparam biased if true, the faster, but slightly biased variant is used.
+   * @tparam T integer type (<=32 bit) to be returned
+   *
+   * @param N A random integral of range [0..N) will be returned
+   * @return T random number from a uniform distribution between 0 and N
+   *
+   *
+   * @note [1] https://lemire.me/blog/2016/06/30/fast-random-shuffling/
+   * @note [2] If N=2^b (b<32), pr(taking the branch) = p = 1/2^(32-b). For N=2^24,
+   * this value is 1/2^8 = .4%, quite negligible. But GPU complicates this simple math.
+   * Assuming a warp size of 32, the probability of a thread taking the branch becomes
+   * 1 - (1-p)^32. For N=2^24, that value is 11.8%. For N=2^20, it's 0.8%.
+   */
+  template <bool biased = true, typename T = int>
+  DEVICE T range(const T N) {
+    // static_assert(std::is_integral_v<T> && sizeof(T) <= sizeof(int32_t),
+    //               "64 bit int not yet supported");
+
+    uint32_t x = gen().template draw<uint32_t>();
+    uint64_t res = static_cast<uint64_t>(x) * static_cast<uint64_t>(N);
+
+    if constexpr (biased) {
+      return static_cast<T>(res >> 32);
+    } else {
+      uint32_t leftover = static_cast<uint32_t>(res);
+      if (leftover < N) {
+        uint32_t threshold = -N % N;
+        while (leftover < threshold) {
+          x = gen().template draw<uint32_t>();
+          res = static_cast<uint64_t>(x) * static_cast<uint64_t>(N);
+          leftover = static_cast<uint32_t>(res);
+        }
+      }
+      return static_cast<T>(res);
+    }
   }
 
   /**
