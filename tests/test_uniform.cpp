@@ -104,11 +104,7 @@ void test_range() {
 }
 
 TEST(RNG, range) {
-<<<<<<< HEAD
   test_range<openrand::Philox>();
-=======
-  test_range<openrand::Phillox>();
->>>>>>> upstream/main
   test_range<openrand::Tyche>();
   test_range<openrand::Threefry>();
   test_range<openrand::Squares>();

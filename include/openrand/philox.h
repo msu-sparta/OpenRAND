@@ -51,11 +51,7 @@ namespace openrand {
 class Philox : public BaseRNG<Philox> {
  public:
   /**
-<<<<<<< HEAD:include/openrand/philox.h
-   * @brief Construct a new Philox object
-=======
-   * @brief Construct a new Phillox object
->>>>>>> upstream/main:include/openrand/phillox.h
+   * @brief Construct a new Philox generator
    *
    * @note Internally, global_seed is treated in the same way as other counters,
    * and can be treated as such depending on the application needs.
@@ -65,11 +61,7 @@ class Philox : public BaseRNG<Philox> {
    * @param global_seed (Optional) 32-bit global seed.
    * @param ctr1 (Optional) Another 32-bit counter exposed for advanced use.
    */
-<<<<<<< HEAD:include/openrand/philox.h
   DEVICE Philox(uint64_t seed, uint32_t ctr,
-=======
-  DEVICE Phillox(uint64_t seed, uint32_t ctr,
->>>>>>> upstream/main:include/openrand/phillox.h
                  uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
                  uint32_t ctr1 = 0x12345)
       : seed_hi((uint32_t)(seed >> 32)),
