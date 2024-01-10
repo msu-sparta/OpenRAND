@@ -271,23 +271,21 @@ class BaseRNG {
 
   /**
    * @brief Returns a new generator with the internal state forwarded by a given number
-   * 
+   *
    * The new generator's first output will be the n+1th output of the current
    * generator and so on. This is O(1) operation.
-   * 
+   *
    * @param n Number of steps to move the state forward
    * @return RNG A new RNG object with the state moved forward by n steps
-   * 
+   *
    */
   template <typename T = RNG>
-  typename std::enable_if_t<has_counter<T>::value, RNG>
-  forward_state(int n) const {
-    
-    RNG rng = *static_cast<const RNG *>(this); // copy
+  typename std::enable_if_t<has_counter<T>::value, RNG> forward_state(
+      int n) const {
+    RNG rng = *static_cast<const RNG *>(this);  // copy
     rng._ctr += n;
-    return rng; 
+    return rng;
   }
-
 
  protected:
   /*

@@ -108,15 +108,14 @@ using double2 = vec2<double>;
 using double3 = vec3<double>;
 using double4 = vec4<double>;
 
-
 // CRTP: helper struct to check if Derived has internal counter
 // that enables O(1) state forwarding
 template <typename T, typename = std::void_t<>>
 struct has_counter : std::false_type {};
 
 template <typename T>
-struct has_counter<T, std::void_t<decltype(std::declval<T>()._ctr)>> : std::true_type {};
-
+struct has_counter<T, std::void_t<decltype(std::declval<T>()._ctr)>>
+    : std::true_type {};
 
 }  // namespace openrand
 
