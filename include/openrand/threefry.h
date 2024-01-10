@@ -137,6 +137,8 @@ class Threefry : public BaseRNG<Threefry> {
 
   const uint64_t seed;
   const uint32_t counter;
+
+public:
   uint32_t _ctr = 0;
 };  // class Threefry
 

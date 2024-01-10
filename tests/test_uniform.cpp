@@ -160,3 +160,25 @@ TEST(CPP11, engine) {
   test_cpp_engine<openrand::Threefry>();
   test_cpp_engine<openrand::Squares>();
 }
+
+
+template <typename RNG>
+void test_state_forwarding(){
+  RNG rng(0, 110);
+
+  // Forward the state by 10 steps
+  auto rng1 = rng.forward_state(10);
+
+  // discard first 10 output from rng 
+  for(int i=0; i<10; i++) rng.draw();
+
+  // now, rng1 should produce the same output as rng
+  for(int i=0; i<10; i++) EXPECT_EQ(rng.draw(), rng1.draw());
+}
+
+TEST(RNG, state_forwarding){
+  // Tyche doesn't habe state forwarding
+  test_state_forwarding<openrand::Philox>();
+  test_state_forwarding<openrand::Threefry>();
+  test_state_forwarding<openrand::Squares>();
+}

@@ -109,10 +109,10 @@ class Squares : public BaseRNG<Squares> {
    * hashing function that ensures the seed bits has certain properties as outlined by the
    * author in https://arxiv.org/abs/2004.06278.
    */
-  DEVICE Squares(uint32_t seed, uint32_t _ctr,
+  DEVICE Squares(uint32_t seed, uint32_t ctr,
                  uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
       : seed(hash_seed(seed) ^ global_seed),
-        ctr(static_cast<uint64_t>(_ctr) << 32) {
+        counter(ctr) {
   }
 
   template <typename T = uint32_t>
@@ -121,7 +121,8 @@ class Squares : public BaseRNG<Squares> {
       x = x * x + w;
       return (x >> 32) | (x << 32);
     };
-    ctr++;
+    _ctr++;
+    uint64_t ctr = (static_cast<uint64_t>(counter) <<32) | _ctr;
     uint64_t x = ctr * seed;
     uint64_t y = x;
     uint64_t z = y + seed;
@@ -140,9 +141,13 @@ class Squares : public BaseRNG<Squares> {
     }
   }
 
- private:
+private:
   const uint64_t seed;
-  uint64_t ctr = 0;
+  const uint32_t counter = 0;
+
+  // internal counter
+public:
+  uint32_t _ctr = 0;
 };  // class Squares
 
 }  // namespace openrand
