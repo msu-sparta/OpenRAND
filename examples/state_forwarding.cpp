@@ -51,13 +51,20 @@ int main() {
 
   // the serial output from master_rng
   std::cout << "master_rng output:" << std::endl;
-  for (int i = 0; i < 15; i++) std::cout << master_rng.draw() << " ";
+  for (int i = 0; i < 15; i++) std::cout << master_rng.rand() << " ";
   std::cout << std::endl;
 
   // the output from parallel rngs
+  float vals[15];
+
+#pragma omp parallel for
   for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 5; j++) std::cout << rngs[i].draw() << " ";
+    for (int j = 0; j < 5; j++) vals[5 * i + j] = rngs[i].rand();
   }
+
+  std::cout << "parallel rng output:" << std::endl;
+  for (int i = 0; i < 15; i++) std::cout << vals[i] << " ";
+
   std::cout << std::endl;
   return 0;
 }
