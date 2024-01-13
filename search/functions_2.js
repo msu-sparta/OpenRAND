@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['philox_38',['Philox',['../classopenrand_1_1Philox.html#af4814cb09402ac476b101f2134917bff',1,'openrand::Philox']]]
+  ['operator_28_29_43',['operator()',['../classopenrand_1_1BaseRNG.html#a457b4adb35de9e24c06b98a47d639218',1,'openrand::BaseRNG']]]
 ];

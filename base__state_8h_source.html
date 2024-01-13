@@ -241,28 +241,36 @@ $(function() {
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    }</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  }</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">   * @brief Converts a random number integer to a floating point number between [0., 1.)</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">   */</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Ftype, <span class="keyword">typename</span> Utype&gt;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;  <span class="keyword">inline</span> DEVICE Ftype u01(<span class="keyword">const</span> Utype in)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    constexpr Ftype factor =</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        Ftype(1.) / (Ftype(~<span class="keyword">static_cast&lt;</span>Utype<span class="keyword">&gt;</span>(0)) + Ftype(1.));</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    constexpr Ftype halffactor = Ftype(0.5) * factor;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>Ftype<span class="keyword">&gt;</span>(in) * factor + halffactor;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  }</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  DEVICE __inline__ RNG &amp;gen() {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">static_cast&lt;</span>RNG *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  }</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;};  <span class="comment">// class BaseRNG</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;}  <span class="comment">// namespace openrand</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// OPENRAND_BASE_STATE_H_</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = RNG&gt;</div>
+<div class="line"><a name="l00283"></a><span class="lineno"><a class="line" href="classopenrand_1_1BaseRNG.html#ae5d7c781fa213807c8b80e4649eecca4">  283</a></span>&#160;  <span class="keyword">typename</span> std::enable_if_t&lt;has_counter&lt;T&gt;::value, RNG&gt; <a class="code" href="classopenrand_1_1BaseRNG.html#ae5d7c781fa213807c8b80e4649eecca4">forward_state</a>(</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;      <span class="keywordtype">int</span> n)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    RNG rng = *<span class="keyword">static_cast&lt;</span><span class="keyword">const </span>RNG *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);  <span class="comment">// copy</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    rng._ctr += n;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordflow">return</span> rng;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">   * @brief Converts a random number integer to a floating point number between [0., 1.)</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">   */</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Ftype, <span class="keyword">typename</span> Utype&gt;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="keyword">inline</span> DEVICE Ftype u01(<span class="keyword">const</span> Utype in)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    constexpr Ftype factor =</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        Ftype(1.) / (Ftype(~<span class="keyword">static_cast&lt;</span>Utype<span class="keyword">&gt;</span>(0)) + Ftype(1.));</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    constexpr Ftype halffactor = Ftype(0.5) * factor;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>Ftype<span class="keyword">&gt;</span>(in) * factor + halffactor;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;  }</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  DEVICE __inline__ RNG &amp;gen() {</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">static_cast&lt;</span>RNG *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  }</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;};  <span class="comment">// class BaseRNG</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;}  <span class="comment">// namespace openrand</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// OPENRAND_BASE_STATE_H_</span></div>
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a></div><div class="ttdoc">Base class for random number generators.</div><div class="ttdef"><b>Definition:</b> base_state.h:50</div></div>
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html_a0541bc05e073e39849ce17ccc915ec04"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html#a0541bc05e073e39849ce17ccc915ec04">openrand::BaseRNG::range</a></div><div class="ttdeci">DEVICE T range(const T N)</div><div class="ttdoc">Generates a random integer of certain range.</div><div class="ttdef"><b>Definition:</b> base_state.h:216</div></div>
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html_a17151250ebf7fdb2e4f0265c7ad580fe"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html#a17151250ebf7fdb2e4f0265c7ad580fe">openrand::BaseRNG::randn</a></div><div class="ttdeci">DEVICE T randn(const T mean, const T std_dev)</div><div class="ttdoc">Generates a random number from a normal distribution with mean and std.</div><div class="ttdef"><b>Definition:</b> base_state.h:188</div></div>
@@ -272,7 +280,8 @@ $(function() {
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html_a79912c7ec8db0dc6892c0078ba4f81f3"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html#a79912c7ec8db0dc6892c0078ba4f81f3">openrand::BaseRNG::randn2</a></div><div class="ttdeci">DEVICE vec2&lt; T &gt; randn2()</div><div class="ttdoc">More efficient version of randn, returns two values at once.</div><div class="ttdef"><b>Definition:</b> base_state.h:166</div></div>
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html_a85aa5ab259c425cd0ab9cbc8ef35a01e"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html#a85aa5ab259c425cd0ab9cbc8ef35a01e">openrand::BaseRNG::uniform</a></div><div class="ttdeci">DEVICE T uniform(const T low, const T high)</div><div class="ttdoc">Generates a number from a uniform distribution between a and b.</div><div class="ttdef"><b>Definition:</b> base_state.h:112</div></div>
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html_a982e115c5a134e6b818caf05d0e29058"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">openrand::BaseRNG::gamma</a></div><div class="ttdeci">DEVICE T gamma(T alpha, T b)</div><div class="ttdoc">Generates a random number from a gamma distribution with shape alpha and scale b.</div><div class="ttdef"><b>Definition:</b> base_state.h:253</div></div>
-<div class="ttc" id="astructopenrand_1_1vec2_html"><div class="ttname"><a href="structopenrand_1_1vec2.html">openrand::vec2</a></div><div class="ttdef"><b>Definition:</b> util.h:83</div></div>
+<div class="ttc" id="aclassopenrand_1_1BaseRNG_html_ae5d7c781fa213807c8b80e4649eecca4"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html#ae5d7c781fa213807c8b80e4649eecca4">openrand::BaseRNG::forward_state</a></div><div class="ttdeci">std::enable_if_t&lt; has_counter&lt; T &gt;::value, RNG &gt; forward_state(int n) const</div><div class="ttdoc">Returns a new generator with the internal state forwarded by a given number.</div><div class="ttdef"><b>Definition:</b> base_state.h:283</div></div>
+<div class="ttc" id="astructopenrand_1_1vec2_html"><div class="ttname"><a href="structopenrand_1_1vec2.html">openrand::vec2</a></div><div class="ttdef"><b>Definition:</b> util.h:84</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

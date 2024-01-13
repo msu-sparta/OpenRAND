@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['squares_15',['Squares',['../classopenrand_1_1Squares.html',1,'openrand::Squares'],['../classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be',1,'openrand::Squares::Squares()']]],
-  ['statistical_20quality_20test_20results_16',['Statistical Quality Test Results',['../md_statistical_results.html',1,'']]]
+  ['particle_12',['Particle',['../structParticle.html',1,'']]],
+  ['philox_13',['Philox',['../classopenrand_1_1Philox.html',1,'openrand::Philox'],['../classopenrand_1_1Philox.html#af4814cb09402ac476b101f2134917bff',1,'openrand::Philox::Philox()']]]
 ];

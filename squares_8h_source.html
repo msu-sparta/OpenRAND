@@ -171,19 +171,19 @@ $(function() {
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
 <div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classopenrand_1_1Squares.html">   99</a></span>&#160;<span class="keyword">class </span><a class="code" href="classopenrand_1_1Squares.html">Squares</a> : <span class="keyword">public</span> <a class="code" href="classopenrand_1_1BaseRNG.html">BaseRNG</a>&lt;Squares&gt; {</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">  112</a></span>&#160;  DEVICE <a class="code" href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">Squares</a>(uint32_t seed, uint32_t _ctr,</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classopenrand_1_1Squares.html#accf3b756465b16ecc5af428bbf9709b2">  112</a></span>&#160;  DEVICE <a class="code" href="classopenrand_1_1Squares.html#accf3b756465b16ecc5af428bbf9709b2">Squares</a>(uint32_t seed, uint32_t ctr,</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                 uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      : seed(hash_seed(seed) ^ global_seed),</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        ctr(static_cast&lt;uint64_t&gt;(_ctr) &lt;&lt; 32) {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  DEVICE T draw() {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">auto</span> round = [](uint64_t x, uint64_t w) {</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      x = x * x + w;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <span class="keywordflow">return</span> (x &gt;&gt; 32) | (x &lt;&lt; 32);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    };</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    ctr++;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      : seed(hash_seed(seed) ^ global_seed), counter(ctr) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  DEVICE T draw() {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">auto</span> round = [](uint64_t x, uint64_t w) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      x = x * x + w;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <span class="keywordflow">return</span> (x &gt;&gt; 32) | (x &lt;&lt; 32);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    };</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    _ctr++;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    uint64_t ctr = (<span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(counter) &lt;&lt; 32) | _ctr;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    uint64_t x = ctr * seed;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    uint64_t y = x;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    uint64_t z = y + seed;</div>
@@ -204,15 +204,19 @@ $(function() {
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keyword">const</span> uint64_t seed;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  uint64_t ctr = 0;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;};  <span class="comment">// class Squares</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;}  <span class="comment">// namespace openrand</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// OPENRAND_SQUARES_H_</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keyword">const</span> uint32_t counter = 0;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="comment">// internal counter</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  uint32_t _ctr = 0;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;};  <span class="comment">// class Squares</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}  <span class="comment">// namespace openrand</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// OPENRAND_SQUARES_H_</span></div>
 <div class="ttc" id="aclassopenrand_1_1BaseRNG_html"><div class="ttname"><a href="classopenrand_1_1BaseRNG.html">openrand::BaseRNG</a></div><div class="ttdoc">Base class for random number generators.</div><div class="ttdef"><b>Definition:</b> base_state.h:50</div></div>
 <div class="ttc" id="aclassopenrand_1_1Squares_html"><div class="ttname"><a href="classopenrand_1_1Squares.html">openrand::Squares</a></div><div class="ttdef"><b>Definition:</b> squares.h:99</div></div>
-<div class="ttc" id="aclassopenrand_1_1Squares_html_a6690157af06f557ec0852b51566e94be"><div class="ttname"><a href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">openrand::Squares::Squares</a></div><div class="ttdeci">DEVICE Squares(uint32_t seed, uint32_t _ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</div><div class="ttdoc">Construct a new Squares generator.</div><div class="ttdef"><b>Definition:</b> squares.h:112</div></div>
+<div class="ttc" id="aclassopenrand_1_1Squares_html_accf3b756465b16ecc5af428bbf9709b2"><div class="ttname"><a href="classopenrand_1_1Squares.html#accf3b756465b16ecc5af428bbf9709b2">openrand::Squares::Squares</a></div><div class="ttdeci">DEVICE Squares(uint32_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</div><div class="ttdoc">Construct a new Squares generator.</div><div class="ttdef"><b>Definition:</b> squares.h:112</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

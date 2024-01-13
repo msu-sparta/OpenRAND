@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gamma_6',['gamma',['../classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058',1,'openrand::BaseRNG']]]
+  ['forward_5fstate_6',['forward_state',['../classopenrand_1_1BaseRNG.html#ae5d7c781fa213807c8b80e4649eecca4',1,'openrand::BaseRNG']]]
 ];

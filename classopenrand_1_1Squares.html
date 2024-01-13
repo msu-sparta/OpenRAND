@@ -69,6 +69,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classopenrand_1_1Squares-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">openrand::Squares Class Reference</div>  </div>
@@ -86,9 +87,9 @@ Inheritance diagram for openrand::Squares:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6690157af06f557ec0852b51566e94be"><td class="memItemLeft" align="right" valign="top">DEVICE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">Squares</a> (uint32_t seed, uint32_t _ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</td></tr>
-<tr class="memdesc:a6690157af06f557ec0852b51566e94be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classopenrand_1_1Squares.html">Squares</a> generator.  <a href="classopenrand_1_1Squares.html#a6690157af06f557ec0852b51566e94be">More...</a><br /></td></tr>
-<tr class="separator:a6690157af06f557ec0852b51566e94be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accf3b756465b16ecc5af428bbf9709b2"><td class="memItemLeft" align="right" valign="top">DEVICE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1Squares.html#accf3b756465b16ecc5af428bbf9709b2">Squares</a> (uint32_t seed, uint32_t ctr, uint32_t global_seed=openrand::DEFAULT_GLOBAL_SEED)</td></tr>
+<tr class="memdesc:accf3b756465b16ecc5af428bbf9709b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classopenrand_1_1Squares.html">Squares</a> generator.  <a href="classopenrand_1_1Squares.html#accf3b756465b16ecc5af428bbf9709b2">More...</a><br /></td></tr>
+<tr class="separator:accf3b756465b16ecc5af428bbf9709b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1f141621e006298090d6682b1c5c797"><td class="memTemplParams" colspan="2"><a id="ac1f141621e006298090d6682b1c5c797"></a>
 template&lt;typename T  = uint32_t&gt; </td></tr>
 <tr class="memitem:ac1f141621e006298090d6682b1c5c797"><td class="memTemplItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>draw</b> ()</td></tr>
@@ -121,6 +122,15 @@ DEVICE void&#160;</td><td class="memItemRight" valign="bottom"><b>fill_random</b
 <tr class="memitem:a982e115c5a134e6b818caf05d0e29058 inherit pub_methods_classopenrand_1_1BaseRNG"><td class="memItemLeft" align="right" valign="top">DEVICE T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">gamma</a> (T alpha, T b)</td></tr>
 <tr class="memdesc:a982e115c5a134e6b818caf05d0e29058 inherit pub_methods_classopenrand_1_1BaseRNG"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a random number from a gamma distribution with shape alpha and scale b.  <a href="classopenrand_1_1BaseRNG.html#a982e115c5a134e6b818caf05d0e29058">More...</a><br /></td></tr>
 <tr class="separator:a982e115c5a134e6b818caf05d0e29058 inherit pub_methods_classopenrand_1_1BaseRNG"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5d7c781fa213807c8b80e4649eecca4 inherit pub_methods_classopenrand_1_1BaseRNG"><td class="memItemLeft" align="right" valign="top">std::enable_if_t&lt; <a class="el" href="structopenrand_1_1has__counter.html">has_counter</a>&lt; T &gt;::value, <a class="el" href="classopenrand_1_1Squares.html">Squares</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopenrand_1_1BaseRNG.html#ae5d7c781fa213807c8b80e4649eecca4">forward_state</a> (int n) const</td></tr>
+<tr class="memdesc:ae5d7c781fa213807c8b80e4649eecca4 inherit pub_methods_classopenrand_1_1BaseRNG"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a new generator with the internal state forwarded by a given number.  <a href="classopenrand_1_1BaseRNG.html#ae5d7c781fa213807c8b80e4649eecca4">More...</a><br /></td></tr>
+<tr class="separator:ae5d7c781fa213807c8b80e4649eecca4 inherit pub_methods_classopenrand_1_1BaseRNG"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a8638102c0432c134895bf2d2c93671b7"><td class="memItemLeft" align="right" valign="top"><a id="a8638102c0432c134895bf2d2c93671b7"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_ctr</b> = 0</td></tr>
+<tr class="separator:a8638102c0432c134895bf2d2c93671b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -141,8 +151,8 @@ DEVICE Ftype&#160;</td><td class="memItemRight" valign="bottom"><b>u01</b> (cons
 <tr class="separator:a2f57ce988ce9c056affd1ed35ed48682 inherit pro_methods_classopenrand_1_1BaseRNG"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6690157af06f557ec0852b51566e94be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6690157af06f557ec0852b51566e94be">&#9670;&nbsp;</a></span>Squares()</h2>
+<a id="accf3b756465b16ecc5af428bbf9709b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accf3b756465b16ecc5af428bbf9709b2">&#9670;&nbsp;</a></span>Squares()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,7 +170,7 @@ DEVICE Ftype&#160;</td><td class="memItemRight" valign="bottom"><b>u01</b> (cons
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>_ctr</em>, </td>
+          <td class="paramname"><em>ctr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
