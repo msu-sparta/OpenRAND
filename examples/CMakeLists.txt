@@ -1,7 +1,7 @@
 # Add the executable
 add_executable(basic_usage basic_usage.cpp)
 add_executable(pi_openmp pi_openmp.cpp)
-
+add_executable(serial_parallel_equivalence state_forwarding.cpp)
 
 include(CheckLanguage)
 check_language(CUDA)
