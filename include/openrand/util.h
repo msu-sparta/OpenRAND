@@ -32,12 +32,13 @@
 #include <cstdint>
 #include <type_traits>
 
+// Detects Nvidia and AMD devices for now
 #ifdef __CUDA_ARCH__
-#define DEVICE __host__ __device__
+#define OPENRAND_DEVICE __host__ __device__
 #elif defined(__HIP_DEVICE_COMPILE__)
-#define DEVICE __device__ __host__
+#define OPENRAND_DEVICE __device__ __host__
 #else
-#define DEVICE
+#define OPENRAND_DEVICE
 #endif
 
 namespace openrand {
@@ -49,7 +50,7 @@ constexpr uint32_t DEFAULT_GLOBAL_SEED =
     0xAAAAAAAA;  // equal number of 0 and 1 bits
 
 template <typename T>
-inline DEVICE T sin(T x) {
+inline OPENRAND_DEVICE T sin(T x) {
   if constexpr (std::is_same_v<T, float>)
     return sinf(x);
   else if constexpr (std::is_same_v<T, double>)
@@ -57,7 +58,7 @@ inline DEVICE T sin(T x) {
 }
 
 template <typename T>
-inline DEVICE T cos(T x) {
+inline OPENRAND_DEVICE T cos(T x) {
   if constexpr (std::is_same_v<T, float>)
     return cosf(x);
   else if constexpr (std::is_same_v<T, double>)
@@ -65,7 +66,7 @@ inline DEVICE T cos(T x) {
 }
 
 template <typename T>
-inline DEVICE T log(T x) {
+inline OPENRAND_DEVICE T log(T x) {
   if constexpr (std::is_same_v<T, float>)
     return logf(x);
   else if constexpr (std::is_same_v<T, double>)
@@ -73,7 +74,7 @@ inline DEVICE T log(T x) {
 }
 
 template <typename T>
-inline DEVICE T sqrt(T x) {
+inline OPENRAND_DEVICE T sqrt(T x) {
   if constexpr (std::is_same_v<T, float>)
     return sqrtf(x);
   else if constexpr (std::is_same_v<T, double>)

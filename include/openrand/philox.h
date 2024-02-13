@@ -61,9 +61,9 @@ class Philox : public BaseRNG<Philox> {
    * @param global_seed (Optional) 32-bit global seed.
    * @param ctr1 (Optional) Another 32-bit counter exposed for advanced use.
    */
-  DEVICE Philox(uint64_t seed, uint32_t ctr,
-                uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
-                uint32_t ctr1 = 0x12345)
+  OPENRAND_DEVICE Philox(uint64_t seed, uint32_t ctr,
+                         uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
+                         uint32_t ctr1 = 0x12345)
       : seed_hi((uint32_t)(seed >> 32)),
         seed_lo((uint32_t)(seed & 0xFFFFFFFF)),
         ctr0(ctr),
@@ -72,7 +72,7 @@ class Philox : public BaseRNG<Philox> {
   }
 
   template <typename T = uint32_t>
-  DEVICE T draw() {
+  OPENRAND_DEVICE T draw() {
     generate();
 
     static_assert(std::is_same_v<T, uint32_t> || std::is_same_v<T, uint64_t>);
@@ -99,7 +99,7 @@ class Philox : public BaseRNG<Philox> {
   }
 
  private:
-  DEVICE void generate() {
+  OPENRAND_DEVICE void generate() {
     uint32_t key[2] = {seed_hi, seed_lo};
     /**
      * Philox 4x32 can take upto 4 counters. Here, one counter is part of the
@@ -125,13 +125,15 @@ class Philox : public BaseRNG<Philox> {
     _ctr++;
   }
 
-  inline DEVICE uint32_t mulhilo(uint32_t L, uint32_t R, uint32_t *hip) {
+  inline OPENRAND_DEVICE uint32_t mulhilo(uint32_t L, uint32_t R,
+                                          uint32_t *hip) {
     uint64_t product = static_cast<uint64_t>(L) * static_cast<uint64_t>(R);
     *hip = static_cast<uint32_t>(product >> 32);
     return static_cast<uint32_t>(product);
   }
 
-  inline DEVICE void round(const uint32_t (&key)[2], uint32_t (&ctr)[4]) {
+  inline OPENRAND_DEVICE void round(const uint32_t (&key)[2],
+                                    uint32_t (&ctr)[4]) {
     uint32_t hi0;
     uint32_t hi1;
     uint32_t lo0 = mulhilo(PHILOX_M0, ctr[0], &hi0);

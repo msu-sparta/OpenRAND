@@ -39,13 +39,13 @@ namespace openrand {
 
 class Threefry : public BaseRNG<Threefry> {
  public:
-  DEVICE Threefry(uint64_t seed, uint32_t ctr,
-                  uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
+  OPENRAND_DEVICE Threefry(uint64_t seed, uint32_t ctr,
+                           uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
       : seed(seed ^ global_seed), counter(ctr) {
   }
 
   template <typename T = uint32_t>
-  DEVICE T draw() {
+  OPENRAND_DEVICE T draw() {
     uint32_t out[2];
     round(static_cast<uint32_t>(seed >> 32), static_cast<uint32_t>(seed),
           counter, _ctr++, out);
@@ -62,12 +62,12 @@ class Threefry : public BaseRNG<Threefry> {
   }
 
  private:
-  DEVICE uint32_t rotl32(uint32_t x, uint32_t N) {
+  OPENRAND_DEVICE uint32_t rotl32(uint32_t x, uint32_t N) {
     return (x << (N & 31)) | (x >> ((32 - N) & 31));
   }
 
-  DEVICE void round(uint32_t ks0, uint32_t ks1, uint32_t counter, uint32_t _ctr,
-                    uint32_t* out) {
+  OPENRAND_DEVICE void round(uint32_t ks0, uint32_t ks1, uint32_t counter,
+                             uint32_t _ctr, uint32_t* out) {
     uint32_t x0, x1;
     uint32_t ks2 = 0x1BD11BDA;
 
@@ -112,7 +112,7 @@ class Threefry : public BaseRNG<Threefry> {
     out[1] = x1;
   }
 
-  DEVICE int get_constant(const int index) const {
+  OPENRAND_DEVICE int get_constant(const int index) const {
     switch (index) {
       case 0:
         return 13;
