@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.18)
 
 # Project's name
-project(OpenRAND)
+project(OpenRAND VERSION 1.0)
 
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -48,14 +48,48 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   FetchContent_MakeAvailable(google_benchmark)
 endif()
 
+include(GNUInstallDirs)
 
-
-
-add_library(cbrng INTERFACE)
-target_include_directories(cbrng
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME}
     INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
 
+# Rules to install the library in system
+# It follows the guide in: https://dominikberner.ch/cmake-interface-lib/
 
+# Export the targets
+install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}Targets
+        INCLUDES DESTINATION include)
+
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+configure_package_config_file(
+  "${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+  INSTALL_DESTINATION
+  ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
+
+
+# Create and install the export file
+install(EXPORT ${PROJECT_NAME}Targets
+FILE ${PROJECT_NAME}Targets.cmake
+DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
+
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
+
+
+# Copy entire openrand directory
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/openrand DESTINATION include)
