@@ -10,6 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Define the main library as an interface
 add_library(${PROJECT_NAME} INTERFACE)
 
+# Create an alias target for users to include OpenRAND with a namespace
+# This isn't explicitly necessary as OpenRAND is header-only but it takes including OpenRAND
+#  via find_package + target_link_libraries straightforward. 
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
 # Specify the C++ flags using target_compile_options and generator expressions for better control and compatibility
 target_compile_options(${PROJECT_NAME} INTERFACE
     $<$<CXX_COMPILER_ID:GNU>:
@@ -97,6 +102,7 @@ configure_package_config_file(
 
 install(EXPORT ${PROJECT_NAME}Targets
     FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
