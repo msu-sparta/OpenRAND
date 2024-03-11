@@ -35,7 +35,7 @@
 #include <limits>
 
 namespace {
-inline DEVICE uint32_t rotl(uint32_t value, unsigned int x) {
+inline OPENRAND_DEVICE uint32_t rotl(uint32_t value, unsigned int x) {
   return (value << x) | (value >> (32 - x));
 }
 }  // namespace
@@ -44,8 +44,8 @@ namespace openrand {
 
 class Tyche : public BaseRNG<Tyche> {
  public:
-  DEVICE Tyche(uint64_t seed, uint32_t ctr,
-               uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED) {
+  OPENRAND_DEVICE Tyche(uint64_t seed, uint32_t ctr,
+                        uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED) {
     seed = seed ^ global_seed;
     a = static_cast<uint32_t>(seed >> 32);
     b = static_cast<uint32_t>(seed & 0xFFFFFFFFULL);
@@ -57,7 +57,7 @@ class Tyche : public BaseRNG<Tyche> {
   }
 
   template <typename T = uint32_t>
-  DEVICE T draw() {
+  OPENRAND_DEVICE T draw() {
     mix();
     if constexpr (std::is_same_v<T, uint32_t>)
       return a;
@@ -71,7 +71,7 @@ class Tyche : public BaseRNG<Tyche> {
   }
 
  private:
-  // inline DEVICE void mix() {
+  // inline OPENRAND_DEVICE void mix() {
   //   a += b;
   //   d = rotl(d ^ a, 16);
   //   c += d;
@@ -82,7 +82,7 @@ class Tyche : public BaseRNG<Tyche> {
   //   b = rotl(b ^ c, 7);
   // }
 
-  inline DEVICE void mix() {
+  inline OPENRAND_DEVICE void mix() {
     b = rotl(b, 7) ^ c;
     c -= d;
     d = rotl(d, 8) ^ a;

@@ -20,7 +20,7 @@ jobs:
        run: mkdir build
 
      - name: CMake Configure
-       run: cmake -B build 
+       run: cmake -B build -DOpenRAND_ENABLE_TESTS=ON
 
      - name: Build project
        working-directory: ${{github.workspace}}/build

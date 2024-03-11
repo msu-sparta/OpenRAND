@@ -1,61 +1,117 @@
 # TODO: Lower the min version required
 cmake_minimum_required(VERSION 3.18)
 
-# Project's name
-project(OpenRAND)
+project(OpenRAND VERSION 1.0)
 
-# Set the C++ standard
+# Set the C++ standard and ensure it's strictly required
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#- Wdouble-promotion : implicit float->double promotion is a really bad idea for GPU
-set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wdouble-promotion -Wconversion -O3 -fopenmp")
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+# Define the main library as an interface
+add_library(${PROJECT_NAME} INTERFACE)
 
-include(FetchContent)
+# Create an alias target for users to include OpenRAND with a namespace
+# This isn't explicitly necessary as OpenRAND is header-only but it takes including OpenRAND
+#  via find_package + target_link_libraries straightforward. 
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# Build TestU01 statistical test suite
-set(TESTU01_PATH "" CACHE PATH "Path to TestU01 library")
+# Specify the C++ flags using target_compile_options and generator expressions for better control and compatibility
+target_compile_options(${PROJECT_NAME} INTERFACE
+    $<$<CXX_COMPILER_ID:GNU>:
+        -Wall -Wextra -Wdouble-promotion -Wconversion -O3>
+    $<$<CXX_COMPILER_ID:Clang>:
+        -Wall -Wextra -Wconversion -O3>
+    $<$<CXX_COMPILER_ID:MSVC>:
+        /W4 /O2>
+)
 
-# Only build tests, examples and benchmarks if this isn't compiled
-# as a dependecy of another project.
-# Thanks to: https://www.foonathan.net/2022/06/cmake-fetchcontent/
-if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-  enable_testing()
-  add_subdirectory(tests)
-  
-  add_subdirectory(examples)
-  add_subdirectory(benchmarks)
+# Include directories for the interface target
+target_include_directories(${PROJECT_NAME} INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+# Options to control the build process
+option(OpenRAND_ENABLE_TESTS "Enable building of tests" OFF)
+option(OpenRAND_ENABLE_EXAMPLES "Enable building of examples" OFF)
+option(OpenRAND_ENABLE_BENCHMARKS "Enable building of benchmarks" OFF)
+
+message(STATUS "OpenRAND_ENABLE_TESTS: ${OpenRAND_ENABLE_TESTS}")
+message(STATUS "OpenRAND_ENABLE_EXAMPLES: ${OpenRAND_ENABLE_EXAMPLES}")
+message(STATUS "OpenRAND_ENABLE_BENCHMARKS: ${OpenRAND_ENABLE_BENCHMARKS}")
+
+if(OpenRAND_ENABLE_TESTS)
+  # Fetch GoogleTest for managing tests
+  include(FetchContent)
 
   FetchContent_Declare(
     googletest
     URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE 
   )
-  # For Windows: Prevent overriding the parent project's compiler/linker settings
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  set(INSTALL_GTEST OFF CACHE BOOL "" FORCE) # Prevent GTest from being installed
   FetchContent_MakeAvailable(googletest)
-
-  # TODO: it's still being built as DEBUG
-  FetchContent_Declare(
-    google_benchmark
-    GIT_REPOSITORY https://github.com/google/benchmark.git
-    GIT_TAG        main
-    CMAKE_ARGS     -DCMAKE_BUILD_TYPE=Release
-  )
-  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(google_benchmark)
+  
+  enable_testing()
+  add_subdirectory(tests)
 endif()
 
+if(OpenRAND_ENABLE_EXAMPLES)
+  add_subdirectory(examples)
+endif()
 
+if(OpenRAND_ENABLE_BENCHMARKS)
+  # Fetch GoogleBenchmarks for managing benchmarks
+  include(FetchContent)
+  FetchContent_Declare(
+      google_benchmark
+      GIT_REPOSITORY https://github.com/google/benchmark.git
+      GIT_TAG        main
+      CMAKE_ARGS     -DCMAKE_BUILD_TYPE=Release  # TODO: it's still being built as DEBUG
+  )
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+  set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE) # Prevent GoogleBenchmarks from being installed
+  FetchContent_MakeAvailable(google_benchmark)
+  
+  add_subdirectory(benchmarks)
+endif()
 
+# Installation rules for the library
+include(GNUInstallDirs)
 
-add_library(cbrng INTERFACE)
-target_include_directories(cbrng
-    INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
+# Installation rules for the library
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
+# Exporting and installing the package configuration
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
 
+configure_package_config_file(
+    "${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+install(EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+              "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+# Install the include directory
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/openrand
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)

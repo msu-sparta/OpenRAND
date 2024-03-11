@@ -40,7 +40,7 @@ In Squares, since the seed (i.e. key) has to have certain properties to
 generate good random numbers, we can't allow user to set arbritray seed.
 To avoid the pitfall of weak user supplied seed, we need to hash that seed.
 */
-// inline DEVICE uint64_t hash_seed(uint64_t seed){
+// inline OPENRAND_DEVICE uint64_t hash_seed(uint64_t seed){
 //     return (seed + 1) * K;
 // }
 
@@ -48,7 +48,7 @@ To avoid the pitfall of weak user supplied seed, we need to hash that seed.
 //     return _tzcnt_u64(_pdep_u64(1U << n, x));
 // }
 
-DEVICE unsigned int get_digit(uint64_t i, char *mask) {
+OPENRAND_DEVICE unsigned int get_digit(uint64_t i, char *mask) {
   unsigned int j = 0;
   while (1) {
     while (mask[j] == 0) j++;
@@ -58,7 +58,7 @@ DEVICE unsigned int get_digit(uint64_t i, char *mask) {
   }
 }
 
-DEVICE uint64_t hash_seed(uint32_t seed) {
+OPENRAND_DEVICE uint64_t hash_seed(uint32_t seed) {
   constexpr uint64_t factorials[16] = {
       1,         1,          2,           6,
       24,        120,        720,         5040,
@@ -109,13 +109,13 @@ class Squares : public BaseRNG<Squares> {
    * hashing function that ensures the seed bits has certain properties as outlined by the
    * author in https://arxiv.org/abs/2004.06278.
    */
-  DEVICE Squares(uint32_t seed, uint32_t ctr,
-                 uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
+  OPENRAND_DEVICE Squares(uint32_t seed, uint32_t ctr,
+                          uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
       : seed(hash_seed(seed) ^ global_seed), counter(ctr) {
   }
 
   template <typename T = uint32_t>
-  DEVICE T draw() {
+  OPENRAND_DEVICE T draw() {
     auto round = [](uint64_t x, uint64_t w) {
       x = x * x + w;
       return (x >> 32) | (x << 32);

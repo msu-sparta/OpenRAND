@@ -15,9 +15,9 @@ OpenRAND is a C++ library designed to foster reproducible scientific research by
 
 
 ## Installation
-OpenRAND is header only, so there is no need to install it. Simply copy the header files in `include/` directory into your project and you're good to go!
+OpenRAND is header only, so there is no need to install it. You can simply copy the header files in `include/` directory into your project and you're good to go!
 
-You can also install OpenRAND using CMake. To integrate OpenRAND into your CMake project, add the following lines to your CMakeLists.txt file:
+You can also use CMake. To integrate OpenRAND into your CMake project, add the following lines to your CMakeLists.txt file:
 
 ```
 include(FetchContent)
@@ -29,7 +29,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(crng)
 ```
-If you're building OpenRAND and want to build the TestU01 statistical test suite, set CMake variable `TESTU01_PATH` to locally installed TestU01 library location. For practrand, pipe the output of `pract_rand*` executables (built bu default) to Practrand's `RNG_test` executable.
+
+Alternatively, you can install OpenRAND by running `make install` from a build directory, and linking to it using `target_link_libraries(Executable PRIVATE OpenRAND::OpenRAND)` from an application. 
+
+
+You can optionally turn on tests, examples and benchmarks using `OpenRAND_ENABLE_TESTS`, `OpenRAND_ENABLE_EXAMPLES` and `OpenRAND_ENABLE_BENCHMARKS` flags respectively. If you want to build the TestU01 statistical test suite, set CMake variable `TESTU01_PATH` to locally installed TestU01 library location. For practrand, pipe the output of `pract_rand*` executables (built by default when testing enabled) to Practrand's `RNG_test` executable.
 
 
 ## Usage
