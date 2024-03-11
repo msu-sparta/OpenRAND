@@ -32,7 +32,6 @@
 #include <cub/cub.cuh>
 #include <cuda.h>
 
-
 #include <openrand/philox.h>
 #include <openrand/threefry.h>
 #include <openrand/squares.h>
