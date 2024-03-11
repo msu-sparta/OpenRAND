@@ -112,13 +112,13 @@ $(function() {
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classopenrand_1_1Threefry.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="classopenrand_1_1Threefry.html">Threefry</a> : <span class="keyword">public</span> <a class="code" href="classopenrand_1_1BaseRNG.html">BaseRNG</a>&lt;Threefry&gt; {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  DEVICE <a class="code" href="classopenrand_1_1Threefry.html">Threefry</a>(uint64_t seed, uint32_t ctr,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                  uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  OPENRAND_DEVICE <a class="code" href="classopenrand_1_1Threefry.html">Threefry</a>(uint64_t seed, uint32_t ctr,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                           uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      : seed(seed ^ global_seed), counter(ctr) {</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  }</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  DEVICE T draw() {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  OPENRAND_DEVICE T draw() {</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    uint32_t out[2];</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    round(<span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(seed &gt;&gt; 32), <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(seed),</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;          counter, _ctr++, out);</div>
@@ -135,12 +135,12 @@ $(function() {
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  DEVICE uint32_t rotl32(uint32_t x, uint32_t N) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  OPENRAND_DEVICE uint32_t rotl32(uint32_t x, uint32_t N) {</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> (x &lt;&lt; (N &amp; 31)) | (x &gt;&gt; ((32 - N) &amp; 31));</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  DEVICE <span class="keywordtype">void</span> round(uint32_t ks0, uint32_t ks1, uint32_t counter, uint32_t _ctr,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    uint32_t* out) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  OPENRAND_DEVICE <span class="keywordtype">void</span> round(uint32_t ks0, uint32_t ks1, uint32_t counter,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                             uint32_t _ctr, uint32_t* out) {</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uint32_t x0, x1;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    uint32_t ks2 = 0x1BD11BDA;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
@@ -185,7 +185,7 @@ $(function() {
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    out[1] = x1;</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  }</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  DEVICE <span class="keywordtype">int</span> get_constant(<span class="keyword">const</span> <span class="keywordtype">int</span> index)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  OPENRAND_DEVICE <span class="keywordtype">int</span> get_constant(<span class="keyword">const</span> <span class="keywordtype">int</span> index)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">switch</span> (index) {</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <span class="keywordflow">case</span> 0:</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">return</span> 13;</div>

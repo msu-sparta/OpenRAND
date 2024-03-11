@@ -108,7 +108,7 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">namespace </span>{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">inline</span> DEVICE uint32_t rotl(uint32_t value, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> x) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">inline</span> OPENRAND_DEVICE uint32_t rotl(uint32_t value, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> x) {</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> (value &lt;&lt; x) | (value &gt;&gt; (32 - x));</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}  <span class="comment">// namespace</span></div>
@@ -117,8 +117,8 @@ $(function() {
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classopenrand_1_1Tyche.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="classopenrand_1_1Tyche.html">Tyche</a> : <span class="keyword">public</span> <a class="code" href="classopenrand_1_1BaseRNG.html">BaseRNG</a>&lt;Tyche&gt; {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  DEVICE <a class="code" href="classopenrand_1_1Tyche.html">Tyche</a>(uint64_t seed, uint32_t ctr,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;               uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  OPENRAND_DEVICE <a class="code" href="classopenrand_1_1Tyche.html">Tyche</a>(uint64_t seed, uint32_t ctr,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED) {</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    seed = seed ^ global_seed;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    a = <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(seed &gt;&gt; 32);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    b = <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(seed &amp; 0xFFFFFFFFULL);</div>
@@ -130,7 +130,7 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  }</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T = u<span class="keywordtype">int</span>32_t&gt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  DEVICE T draw() {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  OPENRAND_DEVICE T draw() {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    mix();</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, uint32_t&gt;)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">return</span> a;</div>
@@ -144,7 +144,7 @@ $(function() {
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="comment">// inline DEVICE void mix() {</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="comment">// inline OPENRAND_DEVICE void mix() {</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="comment">//   a += b;</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">//   d = rotl(d ^ a, 16);</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="comment">//   c += d;</span></div>
@@ -155,7 +155,7 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="comment">//   b = rotl(b ^ c, 7);</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="comment">// }</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keyword">inline</span> DEVICE <span class="keywordtype">void</span> mix() {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keyword">inline</span> OPENRAND_DEVICE <span class="keywordtype">void</span> mix() {</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    b = rotl(b, 7) ^ c;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    c -= d;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    d = rotl(d, 8) ^ a;</div>

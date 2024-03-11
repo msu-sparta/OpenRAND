@@ -77,8 +77,8 @@ Features</h1>
 <p><b>Performance</b>: It is as fast and often faster than native libraries like libstdc++ or Nvidia's Curand, with minimal memory overhead. See the <a href="https://arxiv.org/abs/2310.19925">paper</a> for details.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Installation</h1>
-<p>OpenRAND is header only, so there is no need to install it. Simply copy the header files in <code>include/</code> directory into your project and you're good to go!</p>
-<p>You can also install OpenRAND using CMake. To integrate OpenRAND into your CMake project, add the following lines to your CMakeLists.txt file:</p>
+<p>OpenRAND is header only, so there is no need to install it. You can simply copy the header files in <code>include/</code> directory into your project and you're good to go!</p>
+<p>You can also use CMake. To integrate OpenRAND into your CMake project, add the following lines to your CMakeLists.txt file:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
 <div class="line">FetchContent_Declare(</div>
 <div class="line">  crng</div>
@@ -87,7 +87,8 @@ Installation</h1>
 <div class="line">)</div>
 <div class="line"> </div>
 <div class="line">FetchContent_MakeAvailable(crng)</div>
-</div><!-- fragment --><p> If you're building OpenRAND and want to build the TestU01 statistical test suite, set CMake variable <code>TESTU01_PATH</code> to locally installed TestU01 library location. For practrand, pipe the output of <code>pract_rand*</code> executables (built bu default) to Practrand's <code>RNG_test</code> executable.</p>
+</div><!-- fragment --><p>Alternatively, you can install OpenRAND by running <code>make install</code> from a build directory, and linking to it using <code>target_link_libraries(Executable PRIVATE OpenRAND::OpenRAND)</code> from an application.</p>
+<p>You can optionally turn on tests, examples and benchmarks using <code>OpenRAND_ENABLE_TESTS</code>, <code>OpenRAND_ENABLE_EXAMPLES</code> and <code>OpenRAND_ENABLE_BENCHMARKS</code> flags respectively. If you want to build the TestU01 statistical test suite, set CMake variable <code>TESTU01_PATH</code> to locally installed TestU01 library location. For practrand, pipe the output of <code>pract_rand*</code> executables (built by default when testing enabled) to Practrand's <code>RNG_test</code> executable.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Usage</h1>
 <p>Here's a simple example of how to generate random numbers using OpenRAND:</p>
