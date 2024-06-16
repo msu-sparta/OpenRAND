@@ -15,16 +15,6 @@ add_library(${PROJECT_NAME} INTERFACE)
 #  via find_package + target_link_libraries straightforward. 
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# Specify the C++ flags using target_compile_options and generator expressions for better control and compatibility
-target_compile_options(${PROJECT_NAME} INTERFACE
-    $<$<CXX_COMPILER_ID:GNU>:
-        -Wall -Wextra -Wdouble-promotion -Wconversion -O3>
-    $<$<CXX_COMPILER_ID:Clang>:
-        -Wall -Wextra -Wconversion -O3>
-    $<$<CXX_COMPILER_ID:MSVC>:
-        /W4 /O2>
-)
-
 # Include directories for the interface target
 target_include_directories(${PROJECT_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
