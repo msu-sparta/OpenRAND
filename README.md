@@ -96,7 +96,7 @@ For a quick intorduction to OpenRAND: please refer to [this guide](https://msu-s
 
 For more detailed information, refer to the doxygen doc [here](https://msu-sparta.github.io/OpenRAND/)
 
-Please refer to the paper ([arvix](https://arxiv.org/abs/2310.19925)) for detailed performance figures, our design choices etc.
+Please refer to the paper published in ([SoftwareX](https://authors.elsevier.com/sd/article/S2352-7110(24)00144-4)) journal for detailed performance figures, our design choices etc.
 
 ## Contributing
 We welcome all sorts of contributions from the community- code, bug reports, documentation improvements, and any general feedback is always appreciated. 
@@ -108,13 +108,16 @@ If you'd like to make a major change or introduce a new feature, please open an 
 ## Citation
 If you use OpenRAND for your research, we would appreciate it if you cite our paper. Below is the BibTeX entry for our publication:
 ```bibtex
-@misc{khan2023openrand,
-      title={OpenRAND: A Performance Portable, Reproducible Random Number Generation Library for Parallel Computations}, 
-      author={Shihab Shahriar Khan and Bryce Palmer and Christopher Edelmaierd and Hasan Metin Aktulga},
-      year={2023},
-      eprint={2310.19925},
-      archivePrefix={arXiv},
-      primaryClass={cs.DC}
+@article{KHAN2024101773,
+title = {OpenRAND: A performance portable, reproducible random number generation library for parallel computations},
+journal = {SoftwareX},
+volume = {27},
+pages = {101773},
+year = {2024},
+issn = {2352-7110},
+doi = {https://doi.org/10.1016/j.softx.2024.101773},
+url = {https://www.sciencedirect.com/science/article/pii/S2352711024001444},
+author = {Shihab Shahriar Khan and Bryce Palmer and Christopher Edelmaier and Hasan Metin Aktulga}
 }
 ```
 
