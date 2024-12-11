@@ -86,12 +86,12 @@ class Philox : public BaseRNG<Philox> {
     }
   }
 
-  openrand::uint4 draw_int4() {
+  OPENRAND_DEVICE openrand::uint4 draw_int4() {
     generate();
     return openrand::uint4{_out[0], _out[1], _out[2], _out[3]};
   }
 
-  openrand::float4 draw_float4() {
+  OPENRAND_DEVICE openrand::float4 draw_float4() {
     generate();
     return openrand::float4{
         u01<float, uint32_t>(_out[0]), u01<float, uint32_t>(_out[1]),
