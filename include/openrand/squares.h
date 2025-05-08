@@ -33,7 +33,7 @@
 
 namespace {
 
-#define K 0xc58efd154ce32f6d
+#define OPENRAND_K 0xc58efd154ce32f6d
 
 /*
 In Squares, since the seed (i.e. key) has to have certain properties to
@@ -41,7 +41,7 @@ generate good random numbers, we can't allow user to set arbritray seed.
 To avoid the pitfall of weak user supplied seed, we need to hash that seed.
 */
 // inline OPENRAND_DEVICE uint64_t hash_seed(uint64_t seed){
-//     return (seed + 1) * K;
+//     return (seed + 1) * OPENRAND_K;
 // }
 
 // inline unsigned nthset(uint16_t x, unsigned n) {

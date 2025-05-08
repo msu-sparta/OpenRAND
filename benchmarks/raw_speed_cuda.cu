@@ -25,108 +25,107 @@
 //********************************************************************************
 // @HEADER
 
-#include <iostream>
-#include <chrono>
-
-#include <cuda_runtime.h>
-#include <cub/cub.cuh>
 #include <cuda.h>
-
+#include <cuda_runtime.h>
 #include <openrand/philox.h>
-#include <openrand/threefry.h>
 #include <openrand/squares.h>
+#include <openrand/threefry.h>
 #include <openrand/tyche.h>
 
-const int N = 268435456; // no of 32 bits integers required for 1 GB data
+#include <chrono>
+#include <cub/cub.cuh>
+#include <iostream>
+
+const int N = 268435456;  // no of 32 bits integers required for 1 GB data
 const int BLOCKSIZE = 256;
 
-template<typename RNG>
-__global__ void measure_speed_cuda_kernel(uint32_t *global_sum_dev, int num_per_thread) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    uint32_t sum = 0;
+template <typename RNG>
+__global__ void measure_speed_cuda_kernel(uint32_t *global_sum_dev,
+                                          int num_per_thread) {
+  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  uint32_t sum = 0;
 
-    RNG rng(12345 + idx, 0);
+  RNG rng(12345 + idx, 0);
 
-    for (int i = 0; i < num_per_thread; i ++) {
-        auto tmp = rng.template draw<uint32_t>();
-        sum += tmp;
-        if(tmp==81) i++;
-    }
+  for (int i = 0; i < num_per_thread; i++) {
+    auto tmp = rng.template draw<uint32_t>();
+    sum += tmp;
+    if (tmp == 81) i++;
+  }
 
+  // All these to make sure `sum` doesn't get optimized away
+  typedef cub::BlockReduce<uint32_t, BLOCKSIZE> BlockReduceT;
+  __shared__ typename BlockReduceT::TempStorage temp_storage;
 
-    // All these to make sure `sum` doesn't get optimized away
-    typedef cub::BlockReduce<uint32_t, BLOCKSIZE> BlockReduceT; 
-    __shared__ typename BlockReduceT::TempStorage temp_storage;
+  uint32_t result;
+  if (idx < N) result = BlockReduceT(temp_storage).Sum(sum);
 
-    uint32_t result;
-    if(idx < N) result = BlockReduceT(temp_storage).Sum(sum);
-
-    if(threadIdx.x == 0) {
-        global_sum_dev[blockIdx.x] = result;   
-    }
+  if (threadIdx.x == 0) {
+    global_sum_dev[blockIdx.x] = result;
+  }
 }
 
+template <typename RNG>
+double measure_speed_cuda(int numSMs, bool warmup = false) {
+  // Launch configuration doesn't imitate random123
+  int numBlocks = numSMs * 8;
+  int numThreadsPerBlock = BLOCKSIZE;
 
-template<typename RNG>
-double measure_speed_cuda(int numSMs, bool warmup=false) {
-    // Launch configuration doesn't imitate random123
-    int numBlocks = numSMs * 8;
-    int numThreadsPerBlock = BLOCKSIZE;
+  uint32_t *global_sum;
+  uint32_t *global_sum_dev;
 
-    uint32_t *global_sum;
-    uint32_t *global_sum_dev;
+  // Allocate memory for global_sum on the device
+  global_sum = (uint32_t *)malloc(sizeof(uint32_t) * numBlocks);
+  cudaMalloc((void **)&global_sum_dev, sizeof(uint32_t) * numBlocks);
 
-    // Allocate memory for global_sum on the device
-    global_sum = (uint32_t*) malloc(sizeof(uint32_t) * numBlocks);
-    cudaMalloc((void **)&global_sum_dev, sizeof(uint32_t) * numBlocks);
+  int nums_per_thread = N / (numBlocks * numThreadsPerBlock);
+  auto start = std::chrono::high_resolution_clock::now();
 
-    int nums_per_thread = N / (numBlocks * numThreadsPerBlock);
-    auto start = std::chrono::high_resolution_clock::now();
+  measure_speed_cuda_kernel<RNG>
+      <<<numBlocks, numThreadsPerBlock>>>(global_sum_dev, nums_per_thread);
+  cudaDeviceSynchronize();
 
-    measure_speed_cuda_kernel<RNG><<<numBlocks, numThreadsPerBlock>>> \
-        (global_sum_dev, nums_per_thread);
-    cudaDeviceSynchronize();
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration =
+      std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+  cudaMemcpy(global_sum, global_sum_dev, sizeof(uint32_t) * numBlocks,
+             cudaMemcpyDeviceToHost);
+  cudaFree(global_sum_dev);
+  free(global_sum);
 
-    cudaMemcpy(global_sum, global_sum_dev, sizeof(uint32_t)*numBlocks, cudaMemcpyDeviceToHost);
-    cudaFree(global_sum_dev);
-    free(global_sum);
+  // Total gigabytes produced
+  double total_gb = N * sizeof(uint32_t) / 1e9;
+  double time_taken = duration.count() / 1e6;
 
+  // Speed: GB/s
+  double speed = total_gb / time_taken;
 
-    // Total gigabytes produced
-    double total_gb = N * sizeof(uint32_t) / 1e9;
-    double time_taken = duration.count() / 1e6;
-
-    // Speed: GB/s
-    double speed = total_gb / time_taken;
-
-
-    if(!warmup) std::cout << "Speed: " << speed << " GB/s " << global_sum[0] << std::endl;
-    return duration.count();
+  if (!warmup)
+    std::cout << "Speed: " << speed << " GB/s " << global_sum[0] << std::endl;
+  return duration.count();
 }
 
-int main(){
-    cudaDeviceProp deviceProp;
-    int device;
-    cudaGetDevice(&device); // Get current device
-    cudaGetDeviceProperties(&deviceProp, device);
+int main() {
+  cudaDeviceProp deviceProp;
+  int device;
+  cudaGetDevice(&device);  // Get current device
+  cudaGetDeviceProperties(&deviceProp, device);
 
-    std::cout << "Number of Streaming Multiprocessors (SMs): " << deviceProp.multiProcessorCount << std::endl;
+  std::cout << "Number of Streaming Multiprocessors (SMs): "
+            << deviceProp.multiProcessorCount << std::endl;
 
+  std::cout << "====Philox====" << std::endl;
+  measure_speed_cuda<openrand::Philox>(deviceProp.multiProcessorCount);
 
-    std::cout << "====Philox====" << std::endl;
-    measure_speed_cuda<openrand::Philox>(deviceProp.multiProcessorCount);
+  std::cout << "====Threefry====" << std::endl;
+  measure_speed_cuda<openrand::Threefry>(deviceProp.multiProcessorCount);
 
-    std::cout << "====Threefry====" << std::endl;
-    measure_speed_cuda<openrand::Threefry>(deviceProp.multiProcessorCount);
+  std::cout << "====Squares====" << std::endl;
+  measure_speed_cuda<openrand::Squares>(deviceProp.multiProcessorCount);
 
-    std::cout << "====Squares====" << std::endl;
-    measure_speed_cuda<openrand::Squares>(deviceProp.multiProcessorCount);
+  std::cout << "====Tyche====" << std::endl;
+  measure_speed_cuda<openrand::Tyche>(deviceProp.multiProcessorCount);
 
-    std::cout << "====Tyche====" << std::endl;
-    measure_speed_cuda<openrand::Tyche>(deviceProp.multiProcessorCount);
-
-    return 0;
+  return 0;
 }

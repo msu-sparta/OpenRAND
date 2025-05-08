@@ -35,10 +35,10 @@
 #include <iostream>
 #include <limits>
 
-#define PHILOX_W0 0x9E3779B9
-#define PHILOX_W1 0xBB67AE85
-#define PHILOX_M0 0xD2511F53
-#define PHILOX_M1 0xCD9E8D57
+#define OPENRAND_PHILOX_W0 0x9E3779B9
+#define OPENRAND_PHILOX_W1 0xBB67AE85
+#define OPENRAND_PHILOX_M0 0xD2511F53
+#define OPENRAND_PHILOX_M1 0xCD9E8D57
 
 namespace openrand {
 
@@ -118,8 +118,8 @@ class Philox : public BaseRNG<Philox> {
 
     for (int r = 0; r < 10; r++) {
       if (r > 0) {
-        key[0] += PHILOX_W0;
-        key[1] += PHILOX_W1;
+        key[0] += OPENRAND_PHILOX_W0;
+        key[1] += OPENRAND_PHILOX_W1;
       }
       round(key, _out);
     }
@@ -137,8 +137,8 @@ class Philox : public BaseRNG<Philox> {
                                     uint32_t (&ctr)[4]) {
     uint32_t hi0;
     uint32_t hi1;
-    uint32_t lo0 = mulhilo(PHILOX_M0, ctr[0], &hi0);
-    uint32_t lo1 = mulhilo(PHILOX_M1, ctr[2], &hi1);
+    uint32_t lo0 = mulhilo(OPENRAND_PHILOX_M0, ctr[0], &hi0);
+    uint32_t lo1 = mulhilo(OPENRAND_PHILOX_M1, ctr[2], &hi1);
     ctr[0] = hi1 ^ ctr[1] ^ key[0];
     ctr[1] = lo1;
     ctr[2] = hi0 ^ ctr[3] ^ key[1];
