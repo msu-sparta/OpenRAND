@@ -44,8 +44,9 @@ namespace openrand {
 
 class Tyche : public BaseRNG<Tyche> {
  public:
-  OPENRAND_DEVICE Tyche(uint64_t seed, uint32_t ctr,
-                        uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED) {
+  inline OPENRAND_DEVICE Tyche(
+      uint64_t seed, uint32_t ctr,
+      uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED) {
     seed = seed ^ global_seed;
     a = static_cast<uint32_t>(seed >> 32);
     b = static_cast<uint32_t>(seed & 0xFFFFFFFFULL);
@@ -57,7 +58,7 @@ class Tyche : public BaseRNG<Tyche> {
   }
 
   template <typename T = uint32_t>
-  OPENRAND_DEVICE T draw() {
+  inline OPENRAND_DEVICE T draw() {
     mix();
     if constexpr (std::is_same_v<T, uint32_t>)
       return a;

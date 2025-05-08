@@ -48,7 +48,7 @@ To avoid the pitfall of weak user supplied seed, we need to hash that seed.
 //     return _tzcnt_u64(_pdep_u64(1U << n, x));
 // }
 
-OPENRAND_DEVICE unsigned int get_digit(uint64_t i, char *mask) {
+inline OPENRAND_DEVICE unsigned int get_digit(uint64_t i, char *mask) {
   unsigned int j = 0;
   while (1) {
     while (mask[j] == 0) j++;
@@ -58,7 +58,7 @@ OPENRAND_DEVICE unsigned int get_digit(uint64_t i, char *mask) {
   }
 }
 
-OPENRAND_DEVICE uint64_t hash_seed(uint32_t seed) {
+inline OPENRAND_DEVICE uint64_t hash_seed(uint32_t seed) {
   constexpr uint64_t factorials[16] = {
       1,         1,          2,           6,
       24,        120,        720,         5040,
@@ -109,13 +109,14 @@ class Squares : public BaseRNG<Squares> {
    * hashing function that ensures the seed bits has certain properties as outlined by the
    * author in https://arxiv.org/abs/2004.06278.
    */
-  OPENRAND_DEVICE Squares(uint32_t seed, uint32_t ctr,
-                          uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
+  inline OPENRAND_DEVICE Squares(
+      uint32_t seed, uint32_t ctr,
+      uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED)
       : seed(hash_seed(seed) ^ global_seed), counter(ctr) {
   }
 
   template <typename T = uint32_t>
-  OPENRAND_DEVICE T draw() {
+  inline OPENRAND_DEVICE T draw() {
     auto round = [](uint64_t x, uint64_t w) {
       x = x * x + w;
       return (x >> 32) | (x << 32);

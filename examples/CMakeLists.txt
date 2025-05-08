@@ -15,7 +15,7 @@ else()
     message(STATUS "OpenMP not found: Skipping OpenMP examples")
 endif()
 
-# MPI examples
+# CUDA-dependent examples
 include(CheckLanguage)
 check_language(CUDA)
 if (CMAKE_CUDA_COMPILER)
@@ -27,5 +27,19 @@ if (CMAKE_CUDA_COMPILER)
     set_property(TARGET pi_cuda PROPERTY CUDA_STANDARD 17)
 else()
     message(STATUS "CUDA not found: Skipping CUDA examples")
+endif()
+
+# SYCL-dependent examples
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag("-fsycl" HAS_SYCL_FLAG)
+
+if (HAS_SYCL_FLAG)
+    message(STATUS "SYCL FOUND: Building SYCL examples")
+
+    add_executable(pi_sycl pi_sycl.cpp)
+    target_compile_options(pi_sycl PRIVATE -fsycl)
+    target_link_libraries(pi_sycl PRIVATE ${PROJECT_NAME})
+else()
+    message(STATUS "SYCL not found or not supported by this compiler: Skipping SYCL examples")
 endif()
 

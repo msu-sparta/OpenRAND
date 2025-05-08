@@ -61,9 +61,10 @@ class Philox : public BaseRNG<Philox> {
    * @param global_seed (Optional) 32-bit global seed.
    * @param ctr1 (Optional) Another 32-bit counter exposed for advanced use.
    */
-  OPENRAND_DEVICE Philox(uint64_t seed, uint32_t ctr,
-                         uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
-                         uint32_t ctr1 = 0x12345)
+  inline OPENRAND_DEVICE Philox(
+      uint64_t seed, uint32_t ctr,
+      uint32_t global_seed = openrand::DEFAULT_GLOBAL_SEED,
+      uint32_t ctr1 = 0x12345)
       : seed_hi((uint32_t)(seed >> 32)),
         seed_lo((uint32_t)(seed & 0xFFFFFFFF)),
         ctr0(ctr),
@@ -72,7 +73,7 @@ class Philox : public BaseRNG<Philox> {
   }
 
   template <typename T = uint32_t>
-  OPENRAND_DEVICE T draw() {
+  inline OPENRAND_DEVICE T draw() {
     generate();
 
     static_assert(std::is_same_v<T, uint32_t> || std::is_same_v<T, uint64_t>);
@@ -86,12 +87,12 @@ class Philox : public BaseRNG<Philox> {
     }
   }
 
-  OPENRAND_DEVICE openrand::uint4 draw_int4() {
+  inline OPENRAND_DEVICE openrand::uint4 draw_int4() {
     generate();
     return openrand::uint4{_out[0], _out[1], _out[2], _out[3]};
   }
 
-  OPENRAND_DEVICE openrand::float4 draw_float4() {
+  inline OPENRAND_DEVICE openrand::float4 draw_float4() {
     generate();
     return openrand::float4{
         u01<float, uint32_t>(_out[0]), u01<float, uint32_t>(_out[1]),
@@ -99,7 +100,7 @@ class Philox : public BaseRNG<Philox> {
   }
 
  private:
-  OPENRAND_DEVICE void generate() {
+  inline OPENRAND_DEVICE void generate() {
     uint32_t key[2] = {seed_hi, seed_lo};
     /**
      * Philox 4x32 can take upto 4 counters. Here, one counter is part of the

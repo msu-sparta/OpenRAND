@@ -51,10 +51,10 @@ class BaseRNG {
  public:
   using result_type = uint32_t;
 
-  static constexpr result_type min() {
+  static inline constexpr OPENRAND_DEVICE result_type min() {
     return 0u;
   }
-  static constexpr result_type max() {
+  static inline constexpr OPENRAND_DEVICE result_type max() {
     return ~((result_type)0);
   }
 
@@ -65,7 +65,7 @@ class BaseRNG {
    *
    * @return uint32_t random number from a uniform distribution
    */
-  OPENRAND_DEVICE result_type operator()() {
+  inline OPENRAND_DEVICE result_type operator()() {
     return gen().template draw<uint32_t>();
   }
 
@@ -81,7 +81,7 @@ class BaseRNG {
    * @return T random number from a uniform distribution between 0 and 1
    */
   template <typename T = float>
-  OPENRAND_DEVICE T rand() {
+  inline OPENRAND_DEVICE T rand() {
     if constexpr (sizeof(T) <= 4) {
       const uint32_t x = gen().template draw<uint32_t>();
       if constexpr (std::is_integral_v<T>)
@@ -109,7 +109,7 @@ class BaseRNG {
    * @return T random number from a uniform distribution between a and b
    */
   template <typename T = float>
-  OPENRAND_DEVICE T uniform(const T low, const T high) {
+  inline OPENRAND_DEVICE T uniform(const T low, const T high) {
     // TODO: Allow 64 bit integers
     static_assert(!(std::is_integral_v<T> && sizeof(T) > sizeof(int32_t)),
                   "64 bit int not yet supported");
@@ -129,7 +129,7 @@ class BaseRNG {
    * @Note This array is filled serially. `N` ideally should not be large.
    */
   template <typename T = float>
-  OPENRAND_DEVICE void fill_random(T *array, const int N) {
+  inline OPENRAND_DEVICE void fill_random(T *array, const int N) {
     for (int i = 0; i < N; i++) array[i] = rand<T>();
   }
 
@@ -145,7 +145,7 @@ class BaseRNG {
    * @return T random number from a normal distribution with mean 0 and std 1
    */
   template <typename T = float>
-  OPENRAND_DEVICE T randn() {
+  inline OPENRAND_DEVICE T randn() {
     static_assert(std::is_floating_point_v<T>);
     constexpr T M_PI2 = 2 * static_cast<T>(M_PI);
 
@@ -163,7 +163,7 @@ class BaseRNG {
    * @return T random number from a normal distribution with mean 0 and std 1
    */
   template <typename T = float>
-  OPENRAND_DEVICE vec2<T> randn2() {
+  inline OPENRAND_DEVICE vec2<T> randn2() {
     // Implements box-muller method
     static_assert(std::is_floating_point_v<T>);
     constexpr T M_PI2 = 2 * static_cast<T>(M_PI);
@@ -185,7 +185,7 @@ class BaseRNG {
    * @return T random number from a normal distribution with mean and std
    */
   template <typename T = float>
-  OPENRAND_DEVICE T randn(const T mean, const T std_dev) {
+  inline OPENRAND_DEVICE T randn(const T mean, const T std_dev) {
     return mean + randn<T>() * std_dev;
   }
 
@@ -213,7 +213,7 @@ class BaseRNG {
    * 1 - (1-p)^32. For N=2^24, that value is 11.8%. For N=2^20, it's 0.8%.
    */
   template <bool biased = true, typename T = int>
-  OPENRAND_DEVICE T range(const T N) {
+  inline OPENRAND_DEVICE T range(const T N) {
     // static_assert(std::is_integral_v<T> && sizeof(T) <= sizeof(int32_t),
     //               "64 bit int not yet supported");
 
@@ -250,7 +250,7 @@ class BaseRNG {
    * scale b
    */
   template <typename T = float>
-  OPENRAND_DEVICE inline T gamma(T alpha, T b) {
+  inline OPENRAND_DEVICE T gamma(T alpha, T b) {
     T d = alpha - T((1. / 3.));
     T c = T(1.) / sqrt(9.f * d);
     T v, x;
@@ -303,7 +303,7 @@ class BaseRNG {
   /**
    * @brief Returns a reference to the random number generator.
    */
-  OPENRAND_DEVICE __inline__ RNG &gen() {
+  inline OPENRAND_DEVICE RNG &gen() {
     return *static_cast<RNG *>(this);
   }
 

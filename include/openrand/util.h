@@ -32,11 +32,18 @@
 #include <cstdint>
 #include <type_traits>
 
-// Detects Nvidia and AMD devices for now
-#ifdef __CUDA_ARCH__
+// Detect SYCL compilation
+#if defined(__SYCL_DEVICE_ONLY__) || defined(SYCL_LANGUAGE_VERSION)
+#define OPENRAND_USING_SYCL
+#endif
+
+// Cuda, HIP and SYCL device compilation
+#if defined(OPENRAND_USING_SYCL)
+#define OPENRAND_DEVICE
+#elif defined(__CUDA_ARCH__)
 #define OPENRAND_DEVICE __host__ __device__
 #elif defined(__HIP_DEVICE_COMPILE__)
-#define OPENRAND_DEVICE __device__ __host__
+#define OPENRAND_DEVICE __host__ __device__
 #else
 #define OPENRAND_DEVICE
 #endif
