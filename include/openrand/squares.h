@@ -149,6 +149,8 @@ class Squares : public BaseRNG<Squares> {
   uint32_t _ctr = 0;
 };  // class Squares
 
+#undef K
+
 }  // namespace openrand
 
 #endif  // OPENRAND_SQUARES_H_
